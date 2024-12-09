@@ -13,7 +13,7 @@ public:
     string username;
     string password;
 };
-
+class TransactionStack;
 class AccountBST;
 class Account
 {
@@ -21,6 +21,7 @@ class Account
     string name;
     string accountNumber;
     int amount;
+    TransactionStack transactions;
     friend class AccountBST;
 
 public:
@@ -251,5 +252,78 @@ public:
             this->insertAccount(a);
         }
         file.close();
+    }
+};
+
+
+
+class tNode {
+    string transaction;
+    tNode* next;
+    friend class TransactionStack;
+
+public:
+    tNode(const string& transaction) {
+        this->transaction = transaction;
+        next = nullptr;
+    }
+};
+
+class TransactionStack {
+private:
+    tNode* top;
+    int maxSize;
+    int currentSize;
+
+public:
+    TransactionStack(int size = 5) : top(nullptr), maxSize(size), currentSize(0) {}
+
+    ~TransactionStack() {
+        while (top != nullptr) {
+            tNode* temp = top;
+            top = top->next;
+            delete temp;
+        }
+    }
+
+    void addTransaction(const string& transaction) {
+        if (currentSize == maxSize) {
+            tNode* current = top;
+            while (current->next != nullptr && current->next->next != nullptr) {
+                current = current->next;
+            }
+
+            tNode* temp = current->next;
+            current->next = nullptr;
+            delete temp;
+            currentSize--;
+        }
+
+        tNode* newtNode = new tNode(transaction);
+        newtNode->next = top;
+        top = newtNode;
+        currentSize++;
+    }
+
+    void displayTransactions() const {
+        if (top == nullptr) {
+            cout << "No transactions recorded." << endl;
+            return;
+        }
+
+        cout << "Transactions:" << endl;
+        tNode* current = top;
+        while (current != nullptr) {
+            cout << current->transaction << endl;
+            current = current->next;
+        }
+    }
+
+    bool isEmpty() const {
+        return top == nullptr;
+    }
+
+    int transactionCount() const {
+        return currentSize;
     }
 };
