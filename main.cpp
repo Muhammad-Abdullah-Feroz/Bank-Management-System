@@ -113,6 +113,49 @@ bool userLogin(const vector<User> &users , int& userID)
 
     return false;
 }
+
+void manageAccounts(AccountBST accounts){
+    char choice;
+    bool exit = false;
+
+    while(!exit){
+        refresh();
+        cout<<endl
+            <<"1. Add Account"<<endl
+            <<"2. Delete Account"<<endl
+            <<"3. Update Account Details"<<endl
+            <<"4. Display All Accounts"<<endl
+            <<"0. Exit"<<endl<<endl
+            <<"Your Choice : ";
+            cin >> choice;
+
+        switch(choice)
+        {
+            case '1':
+                cout<<endl<<"Add Account";
+                break;
+            
+            case '2':
+                cout<<endl<<"Delete Account";
+                break;
+
+            case '3':
+                cout<<endl<<"Update Account";
+                break;
+
+            case '4':
+                cout<<endl<<"Displaying Accounts"
+                    <<endl<<"===================";
+                accounts.displayAccounts();
+                break;
+
+            case '0':
+                exit = true;
+                break;
+        }
+    }
+}
+
 // Menu Functions
 void adminMenu(vector<User> &users , AccountBST& accounts)
 {
@@ -149,11 +192,13 @@ void adminMenu(vector<User> &users , AccountBST& accounts)
             case '2':
                 cout << endl
                      << "Manage Accounts";
+                manageAccounts(accounts);
+
                 break;
 
             case '3':
                 cout << endl
-                     << "View Transaction History";
+                     << "Process Transactions";
                 break;
 
             case '4':
