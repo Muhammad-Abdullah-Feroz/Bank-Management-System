@@ -148,10 +148,23 @@ class AccountBST
                 return searchAccountNode(root->left, id);
             }
         }
-        else
+
+        Account *ac = new Account();
+        return *ac;
+    }
+
+    void saveNodesToFile(AccountNode *root, ofstream &file)
+    {
+        if (root != nullptr)
         {
-            Account *ac = new Account();
-            return *ac;
+            // Write each account's data in the correct format
+            file << root->acc.userID << endl;
+            file << root->acc.name << endl;
+            file << root->acc.accountNumber << endl;
+            file << root->acc.amount << endl
+                 << endl;
+            saveNodesToFile(root->left, file);
+            saveNodesToFile(root->right, file);
         }
     }
 
@@ -190,9 +203,9 @@ public:
         }
     }
 
-    void loadTreeFromFile(string filepath)
+    void saveTreeToFile(string filepath)
     {
-        ifstream file;
+        ofstream file;
         file.open(filepath);
         if (!file)
         {
@@ -201,20 +214,42 @@ public:
         }
         else
         {
-            while (!file.eof())
-            {
-                Account a;
-                file >> a.userID;
-                file.ignore();
-                getline(file, a.name);
-                getline(file, a.accountNumber);
-                file >> a.amount;
-                file.ignore();
-                // cout << a.userID << " , "<< a.name << " , "<< a.accountNumber << " , " << a.amount << endl;
-
-                this->insertAccount(a);
-            }
+            saveNodesToFile(this->root, file);
             file.close();
         }
+    }
+
+    void loadTreeFromFile(string filepath)
+    {
+        ifstream file;
+        file.open(filepath);
+
+        if (!file)
+        {
+            cout << endl
+                 << "File Not Found!" << endl;
+            return;
+        }
+
+        while (!file.eof())
+        {
+            Account a;
+            // Read the account details in the same order they are written to the file
+            file >> a.userID;
+            file.ignore();                  // Ignore newline after reading userID
+            getline(file, a.name);          // Read the name
+            getline(file, a.accountNumber); // Read the account number
+            file >> a.amount;
+            file.ignore(); // Ignore newline after reading the amount
+
+            a.displayAccount();
+
+            if (a.userID == 0)
+            {
+                break;
+            }
+            this->insertAccount(a);
+        }
+        file.close();
     }
 };

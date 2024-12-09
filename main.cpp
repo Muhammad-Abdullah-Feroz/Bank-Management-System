@@ -179,7 +179,7 @@ void performTransaction(Account &userAccount, AccountBST &accounts)
             cout << endl
                  << "Transfer Amount";
             cout << endl
-                 << "Displaying Accounts";
+                 << "Displaying Accounts"<<endl<<endl;
             accounts.displayAccounts();
 
             int id;
@@ -188,6 +188,11 @@ void performTransaction(Account &userAccount, AccountBST &accounts)
             cin >> id;
 
             Account &receiverAccount = accounts.searchAccount(id);
+            if (receiverAccount.getID() == 0)
+            {
+                cout << endl << "Account Not Found";
+                break;
+            }
             int amountT;
             cout << endl
                  << "Enter Amount to Transfer : ";
@@ -258,7 +263,7 @@ void manageAccounts(AccountBST accounts)
             cout << endl
                  << "Displaying Accounts"
                  << endl
-                 << "===================";
+                 << "==================="<<endl<<endl;
             accounts.displayAccounts();
             break;
 
@@ -455,6 +460,7 @@ int main()
 
     mainMenu(users, accounts);
     accounts.displayAccounts();
+    accounts.saveTreeToFile(filepathAcc);
     _getch();
     return 0;
 }
