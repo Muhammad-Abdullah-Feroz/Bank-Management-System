@@ -21,7 +21,7 @@ void loadLoginData(vector<User> &users)
         while (!file.eof())
         {
             User u;
-            file>>u.id;
+            file >> u.id;
             file.ignore();
             getline(file, u.username);
             getline(file, u.password);
@@ -63,7 +63,7 @@ bool adminLogin(vector<User> users)
         cout << "Enter your Password : ";
         cin >> password;
 
-        for (int i = 0 ; i < ADMINS ; i++)
+        for (int i = 0; i < ADMINS; i++)
         {
             if (users[i].username == username && users[i].password == password)
             {
@@ -76,11 +76,12 @@ bool adminLogin(vector<User> users)
         cout << endl
              << "Invalid Credentials...";
         attempts--;
-        cout <<endl<<"Attempts Left : "<<attempts;
+        cout << endl
+             << "Attempts Left : " << attempts;
     }
     return false;
 }
-bool userLogin(const vector<User> &users , int& userID)
+bool userLogin(const vector<User> &users, int &userID)
 {
     int attempts = 3;
     string username, password;
@@ -94,7 +95,7 @@ bool userLogin(const vector<User> &users , int& userID)
         cin >> password;
 
         // Check credentials
-        for (int i = 3 ; i < users.size() ; i++)
+        for (int i = 3; i < users.size(); i++)
         {
             if (users[i].username == username && users[i].password == password)
             {
@@ -108,56 +109,168 @@ bool userLogin(const vector<User> &users , int& userID)
         cout << endl
              << "Invalid Credentials..." << endl;
         attempts--;
-        cout <<endl<<"Attempts Left : "<<attempts;
+        cout << endl
+             << "Attempts Left : " << attempts;
     }
 
     return false;
 }
 
-void manageAccounts(AccountBST accounts){
+void performTransaction(Account &userAccount, AccountBST &accounts)
+{
+    char choice;
+    bool exit = false;
+    while (!exit)
+    {
+        refresh();
+        cout << endl
+             << "1. Deposit Amount"
+             << endl
+             << "2. Withdraw Amount"
+             << endl
+             << "3. Transfer Amount"
+             << endl
+             << "0. Exit"
+             << endl
+             << endl
+             << "Your Choice : ";
+        cin >> choice;
+
+        switch (choice)
+        {
+        case '1':
+        {
+            cout << endl
+                 << "Deposit Amount";
+            int amount;
+            cout << endl
+                 << "Enter Amount to Deposit : ";
+            cin >> amount;
+            userAccount.addAmount(amount);
+            // accounts.insertAccount(userAccount);
+            break;
+        }
+
+        case '2':
+        {
+            cout << endl
+                 << "Withdraw Amount";
+            int amountW;
+            cout << endl
+                 << "Enter Amount to Withdraw : ";
+            cin >> amountW;
+            if (amountW > userAccount.getAmount())
+            {
+                cout << endl
+                     << "Not enough balance to withdraw";
+            }
+            else
+            {
+                userAccount.withdrawAmount(amountW);
+                cout << endl
+                     << "Remaining Amount : " << userAccount.getAmount();
+                // accounts.insertAccount(userAccount);
+            }
+            break;
+        }
+
+        case '3':
+        {
+            cout << endl
+                 << "Transfer Amount";
+            cout << endl
+                 << "Displaying Accounts";
+            accounts.displayAccounts();
+
+            int id;
+            cout << endl
+                 << "Enter Account ID to Transfer Amount : ";
+            cin >> id;
+
+            Account &receiverAccount = accounts.searchAccount(id);
+            int amountT;
+            cout << endl
+                 << "Enter Amount to Transfer : ";
+            cin >> amountT;
+            if (amountT > userAccount.getAmount())
+            {
+                cout << endl
+                     << "Not enough balance to transfer";
+            }
+            else
+            {
+                userAccount.withdrawAmount(amountT);
+                receiverAccount.addAmount(amountT);
+                // accounts.insertAccount(userAccount);
+                // accounts.insertAccount(receiverAccount);
+            }
+            break;
+        }
+
+        case '0':
+            exit = true;
+            break;
+
+        default:
+            cout << endl
+                 << "Invalid Choice";
+            break;
+        }
+    }
+}
+
+void manageAccounts(AccountBST accounts)
+{
     char choice;
     bool exit = false;
 
-    while(!exit){
+    while (!exit)
+    {
         refresh();
-        cout<<endl
-            <<"1. Add Account"<<endl
-            <<"2. Delete Account"<<endl
-            <<"3. Update Account Details"<<endl
-            <<"4. Display All Accounts"<<endl
-            <<"0. Exit"<<endl<<endl
-            <<"Your Choice : ";
-            cin >> choice;
+        cout << endl
+             << "1. Add Account" << endl
+             << "2. Delete Account" << endl
+             << "3. Update Account Details" << endl
+             << "4. Display All Accounts" << endl
+             << "0. Exit" << endl
+             << endl
+             << "Your Choice : ";
+        cin >> choice;
 
-        switch(choice)
+        switch (choice)
         {
-            case '1':
-                cout<<endl<<"Add Account";
-                break;
-            
-            case '2':
-                cout<<endl<<"Delete Account";
-                break;
+        case '1':
+            cout << endl
+                 << "Add Account";
+            break;
 
-            case '3':
-                cout<<endl<<"Update Account";
-                break;
+        case '2':
+            cout << endl
+                 << "Delete Account";
+            break;
 
-            case '4':
-                cout<<endl<<"Displaying Accounts"
-                    <<endl<<"===================";
-                accounts.displayAccounts();
-                break;
+        case '3':
+            cout << endl
+                 << "Update Account";
+            break;
 
-            case '0':
-                exit = true;
-                break;
+        case '4':
+            cout << endl
+                 << "Displaying Accounts"
+                 << endl
+                 << "===================";
+            accounts.displayAccounts();
+            break;
+
+        case '0':
+            exit = true;
+            break;
         }
     }
 }
 
 // Menu Functions
-void adminMenu(vector<User> &users , AccountBST& accounts)
+void adminMenu(vector<User> &users, AccountBST &accounts)
 {
     if (adminLogin(users))
     {
@@ -180,7 +293,7 @@ void adminMenu(vector<User> &users , AccountBST& accounts)
                  << endl
                  << "Your Choice : ";
             // choice = _getche();
-            cin>>choice;
+            cin >> choice;
 
             switch (choice)
             {
@@ -218,12 +331,12 @@ void adminMenu(vector<User> &users , AccountBST& accounts)
         }
     }
 }
-void customerMenu(vector<User> &users , AccountBST& accounts)
+void customerMenu(vector<User> &users, AccountBST &accounts)
 {
     int userID = -1;
-    if (userLogin(users , userID))
+    if (userLogin(users, userID))
     {
-        Account& userAccount = accounts.searchAccount(userID);
+        Account &userAccount = accounts.searchAccount(userID);
         userAccount.addAmount(10000);
         userAccount.displayAccount();
         char choice;
@@ -245,14 +358,14 @@ void customerMenu(vector<User> &users , AccountBST& accounts)
                  << endl
                  << "Your Choice: ";
             // choice = _getche();
-            cin>>choice;
+            cin >> choice;
 
             switch (choice)
             {
             case '1':
                 cout << endl
                      << "View Account Details";
-                cout<<endl;
+                cout << endl;
                 userAccount.displayAccount();
                 _getch();
                 break;
@@ -260,6 +373,8 @@ void customerMenu(vector<User> &users , AccountBST& accounts)
             case '2':
                 cout << endl
                      << "Perform Transaction";
+                performTransaction(userAccount, accounts);
+                break;
                 break;
 
             case '3':
@@ -285,7 +400,7 @@ void customerMenu(vector<User> &users , AccountBST& accounts)
     }
 }
 
-void mainMenu(vector<User> &users , AccountBST& accounts)
+void mainMenu(vector<User> &users, AccountBST &accounts)
 {
     char choice;
     bool exit = false;
@@ -310,14 +425,14 @@ void mainMenu(vector<User> &users , AccountBST& accounts)
             // Admin Menu Call
             cout << endl
                  << "Admin Menu";
-            adminMenu(users,accounts);
+            adminMenu(users, accounts);
             break;
 
         case '2':
             // Customer Menu Call
             cout << endl
                  << "Customer Menu";
-            customerMenu(users,accounts);
+            customerMenu(users, accounts);
             break;
 
         case '0':
@@ -337,10 +452,8 @@ int main()
     accounts.loadTreeFromFile(filepathAcc);
     vector<User> users;
     loadLoginData(users);
-    
 
-
-    mainMenu(users , accounts);
+    mainMenu(users, accounts);
     accounts.displayAccounts();
     _getch();
     return 0;

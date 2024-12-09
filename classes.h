@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <iomanip>
 #include <conio.h>
 
 using namespace std;
@@ -29,7 +30,6 @@ public:
         name = "";
         accountNumber = "";
         amount = 0;
-
     }
     void setID(int n)
     {
@@ -53,11 +53,14 @@ public:
     }
     void displayAccount()
     {
-        cout << endl
-             << "Account Holder : " << name << endl
-             << "Account Number : " << accountNumber
-             << endl
-             << "Amount  : " << amount << endl;
+
+        // cout << "-----------------------------------------------------------------------" << endl;
+        cout << "| " << left << setw(10) << userID
+             << "| " << left << setw(20) << name
+             << "| " << left << setw(16) << accountNumber
+             << "| " << right << setw(15) << fixed << setprecision(2) << amount
+             << " |" << endl;
+        cout << "-----------------------------------------------------------------------" << endl;
     }
 };
 
@@ -128,24 +131,29 @@ class AccountBST
             displayNodes(root->right);
         }
     }
-    Account& searchAccountNode(AccountNode* root , int id){
-        if(root){
-            if(root->acc.userID == id){
+    Account &searchAccountNode(AccountNode *root, int id)
+    {
+        if (root)
+        {
+            if (root->acc.userID == id)
+            {
                 return root->acc;
             }
-            if(root->acc.userID < id){
-                return searchAccountNode(root->right , id);
+            if (root->acc.userID < id)
+            {
+                return searchAccountNode(root->right, id);
             }
-            if (root->acc.userID > id){
-                return searchAccountNode(root->left , id);
+            if (root->acc.userID > id)
+            {
+                return searchAccountNode(root->left, id);
             }
-        }else{
-            Account* ac = new Account();
+        }
+        else
+        {
+            Account *ac = new Account();
             return *ac;
         }
     }
-
-
 
 public:
     AccountBST()
@@ -153,8 +161,9 @@ public:
         root = nullptr;
     }
 
-    Account& searchAccount(int id){
-        return searchAccountNode(this->root , id);
+    Account &searchAccount(int id)
+    {
+        return searchAccountNode(this->root, id);
     }
 
     void insertAccount(Account acc)
@@ -165,7 +174,20 @@ public:
 
     void displayAccounts()
     {
-        displayNodes(this->root);
+        if (this->root)
+        {
+            cout << "-----------------------------------------------------------------------" << endl;
+            cout << "| " << left << setw(10) << "UserID"
+                 << "| " << left << setw(20) << "Name"
+                 << "| " << left << setw(16) << "Account Number"
+                 << "| " << right << setw(15) << "Amount" << " |" << endl;
+            cout << "-----------------------------------------------------------------------" << endl;
+            displayNodes(this->root);
+        }
+        else
+        {
+            cout << "No Accounts Found" << endl;
+        }
     }
 
     void loadTreeFromFile(string filepath)
