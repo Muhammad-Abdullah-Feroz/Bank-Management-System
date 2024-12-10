@@ -6,6 +6,16 @@
 
 using namespace std;
 
+void displayAccountHeader()
+{
+    cout << "-----------------------------------------------------------------------" << endl;
+    cout << "| " << left << setw(10) << "UserID"
+         << "| " << left << setw(20) << "Name"
+         << "| " << left << setw(16) << "Account Number"
+         << "| " << right << setw(15) << "Amount" << " |" << endl;
+    cout << "-----------------------------------------------------------------------" << endl;
+}
+
 class User
 {
 public:
@@ -15,79 +25,91 @@ public:
 };
 class TransactionStack;
 
-class tNode {
+class tNode
+{
     string transaction;
-    tNode* next;
+    tNode *next;
     friend class TransactionStack;
 
 public:
-    tNode(const string& transaction) {
+    tNode(const string &transaction)
+    {
         this->transaction = transaction;
         next = nullptr;
     }
 };
 
-class TransactionStack {
+class TransactionStack
+{
 private:
-    tNode* top;
+    tNode *top;
     int maxSize;
     int currentSize;
 
 public:
     TransactionStack() : top(nullptr), maxSize(5), currentSize(0) {}
 
-    ~TransactionStack() {
-        while (top != nullptr) {
-            tNode* temp = top;
+    ~TransactionStack()
+    {
+        while (top != nullptr)
+        {
+            tNode *temp = top;
             top = top->next;
             delete temp;
         }
     }
 
-    void addTransaction(const string& transaction) {
-        if (currentSize == maxSize) {
-            tNode* current = top;
-            while (current->next != nullptr && current->next->next != nullptr) {
+    void addTransaction(const string &transaction)
+    {
+        if (currentSize == maxSize)
+        {
+            tNode *current = top;
+            while (current->next != nullptr && current->next->next != nullptr)
+            {
                 current = current->next;
             }
 
-            tNode* temp = current->next;
+            tNode *temp = current->next;
             current->next = nullptr;
             delete temp;
             currentSize--;
         }
 
-        tNode* newtNode = new tNode(transaction);
+        tNode *newtNode = new tNode(transaction);
         newtNode->next = top;
         top = newtNode;
         currentSize++;
     }
 
-    void displayTransactions() const {
-        if (top == nullptr) {
+    void displayTransactions() const
+    {
+        if (top == nullptr)
+        {
             cout << "No transactions recorded." << endl;
             return;
         }
 
         cout << "Transactions:" << endl;
-        tNode* current = top;
+        tNode *current = top;
         short count = 1;
-        while (current != nullptr) {
-            cout << count <<". "<< current->transaction << endl;
+        while (current != nullptr)
+        {
+            cout << endl << count << ". " << current->transaction << endl;
             current = current->next;
             count++;
         }
     }
 
-    bool isEmpty() const {
+    bool isEmpty() const
+    {
         return top == nullptr;
     }
 
-    int transactionCount() const {
+    int transactionCount() const
+    {
         return currentSize;
     }
 };
-
 
 class AccountBST;
 class Account
@@ -281,12 +303,7 @@ public:
     {
         if (this->root)
         {
-            cout << "-----------------------------------------------------------------------" << endl;
-            cout << "| " << left << setw(10) << "UserID"
-                 << "| " << left << setw(20) << "Name"
-                 << "| " << left << setw(16) << "Account Number"
-                 << "| " << right << setw(15) << "Amount" << " |" << endl;
-            cout << "-----------------------------------------------------------------------" << endl;
+            displayAccountHeader();
             displayNodes(this->root);
         }
         else
@@ -345,5 +362,3 @@ public:
         file.close();
     }
 };
-
-

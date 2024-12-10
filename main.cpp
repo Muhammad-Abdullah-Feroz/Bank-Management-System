@@ -147,7 +147,10 @@ void performTransaction(Account &userAccount, AccountBST &accounts)
                  << "Enter Amount to Deposit : ";
             cin >> amount;
             userAccount.addAmount(amount);
-            string transaction = "Deposited " + to_string(amount)+"$  Date: "+__DATE__+" Time: "+__TIME__;
+            cout<<endl<<"Amount Added Successfully";
+            cout << endl
+                 << "New Amount : " << userAccount.getAmount();
+            string transaction = "Deposited " + to_string(amount) + "$  Date: " + __DATE__ + " Time: " + __TIME__;
             userAccount.setTransaction(transaction);
             // userAccount.transactions.addTransaction(transaction);
             // accounts.insertAccount(userAccount);
@@ -171,8 +174,10 @@ void performTransaction(Account &userAccount, AccountBST &accounts)
             {
                 userAccount.withdrawAmount(amountW);
                 cout << endl
+                     << "Amount Withdrawn Successfully";
+                cout << endl
                      << "Remaining Amount : " << userAccount.getAmount();
-                string transaction = "Withdrawn " + to_string(amountW)+"$  Date: "+__DATE__+" Time: "+__TIME__;
+                string transaction = "Withdrawn " + to_string(amountW) + "$  Date: " + __DATE__ + " Time: " + __TIME__;
                 userAccount.setTransaction(transaction);
                 // accounts.insertAccount(userAccount);
             }
@@ -184,7 +189,8 @@ void performTransaction(Account &userAccount, AccountBST &accounts)
             cout << endl
                  << "Transfer Amount";
             cout << endl
-                 << "Displaying Accounts"<<endl<<endl;
+                 << "Displaying Accounts" << endl
+                 << endl;
             accounts.displayAccounts();
 
             int id;
@@ -195,7 +201,8 @@ void performTransaction(Account &userAccount, AccountBST &accounts)
             Account &receiverAccount = accounts.searchAccount(id);
             if (receiverAccount.getID() == 0)
             {
-                cout << endl << "Account Not Found";
+                cout << endl
+                     << "Account Not Found";
                 break;
             }
             int amountT;
@@ -211,9 +218,10 @@ void performTransaction(Account &userAccount, AccountBST &accounts)
             {
                 userAccount.withdrawAmount(amountT);
                 receiverAccount.addAmount(amountT);
-                string transaction = "Transferred " + to_string(amountT)+"$ to Account Holder: "+receiverAccount.getName()+ " (ID: "+to_string(receiverAccount.getID())+")";
+                string transaction = "Transferred " + to_string(amountT) + "$ to Account Holder: " + receiverAccount.getName() + " (ID: " + to_string(receiverAccount.getID()) + ")";
                 userAccount.setTransaction(transaction);
-                transaction = "Received " + to_string(amountT)+"$ from Account Holder: "+userAccount.getName()+ " (ID: "+to_string(userAccount.getID())+")";
+                cout<<endl<<transaction;
+                transaction = "Received " + to_string(amountT) + "$ from Account Holder: " + userAccount.getName() + " (ID: " + to_string(userAccount.getID()) + ")";
                 receiverAccount.setTransaction(transaction);
                 // accounts.insertAccount(userAccount);
                 // accounts.insertAccount(receiverAccount);
@@ -272,7 +280,8 @@ void manageAccounts(AccountBST accounts)
             cout << endl
                  << "Displaying Accounts"
                  << endl
-                 << "==================="<<endl<<endl;
+                 << "===================" << endl
+                 << endl;
             accounts.displayAccounts();
             break;
 
@@ -352,6 +361,7 @@ void customerMenu(vector<User> &users, AccountBST &accounts)
     {
         Account &userAccount = accounts.searchAccount(userID);
         // userAccount.addAmount(10000);
+        displayAccountHeader();
         userAccount.displayAccount();
         char choice;
         bool exit = false;
@@ -379,7 +389,8 @@ void customerMenu(vector<User> &users, AccountBST &accounts)
             case '1':
                 cout << endl
                      << "View Account Details";
-                cout << endl;
+                cout << endl<<endl;
+                displayAccountHeader();
                 userAccount.displayAccount();
                 _getch();
                 break;
@@ -393,13 +404,20 @@ void customerMenu(vector<User> &users, AccountBST &accounts)
 
             case '3':
                 cout << endl
-                     << "View Transaction History";
-                     userAccount.displayTransactions();
+                     << "View Transaction History"<<endl<<endl;
+                userAccount.displayTransactions();
                 break;
 
             case '4':
                 cout << endl
                      << "View Account Summary";
+                cout << endl
+                     << "Account Details:" << endl;
+                displayAccountHeader();
+                userAccount.displayAccount();
+                cout << endl
+                     << "Transaction History:" <<endl<<endl;
+                userAccount.displayTransactions();
                 break;
 
             case '0':
