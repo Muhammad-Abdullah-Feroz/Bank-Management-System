@@ -255,6 +255,8 @@ void deleteAccount(AccountBST &accounts , vector<User> &users)
 }
 void updateAccount(AccountBST& accounts , vector<User> &users){
     int id;
+    accounts.displayAccounts();
+    cout<<endl;
     cout<<endl<<"Enter User ID to update account : ";
     cin >> id;
     
@@ -268,6 +270,16 @@ void updateAccount(AccountBST& accounts , vector<User> &users){
     cin.ignore();
     getline(cin , name);
     userAcc.setName(name);
+    cout<<endl<<"Enter New Amount : ";
+    int amount;
+    cin>>amount;
+    if(amount < 0){
+        cout<<endl<<"Invalid Amount";
+        return;
+    }
+    userAcc.setAmount(amount);
+    string transaction = "(ADMIN Msg) Updated Account Details..  New Amount : " + to_string(amount) + " $   Date: " + __DATE__  ;
+    userAcc.setTransaction(transaction);
     cout<<endl<<"Account Updated Successfully";
 }
 void manageAccounts(AccountBST &accounts, vector<User> &users)
@@ -305,6 +317,7 @@ void manageAccounts(AccountBST &accounts, vector<User> &users)
         case '3':
             cout << endl
                  << "Update Account";
+            updateAccount(accounts, users);
             break;
 
         case '4':
@@ -359,7 +372,7 @@ void performTransaction(Account &userAccount, AccountBST &accounts)
                  << "Amount Added Successfully";
             cout << endl
                  << "New Amount : " << userAccount.getAmount();
-            string transaction = "Deposited " + to_string(amount) + "$  Date: " + __DATE__ + " Time: " + __TIME__;
+            string transaction = "Deposited " + to_string(amount) + "$  Date: " + __DATE__  ;
             userAccount.setTransaction(transaction);
             // userAccount.transactions.addTransaction(transaction);
             // accounts.insertAccount(userAccount);
@@ -387,7 +400,7 @@ void performTransaction(Account &userAccount, AccountBST &accounts)
                      << "Amount Withdrawn Successfully";
                 cout << endl
                      << "Remaining Amount : " << userAccount.getAmount();
-                string transaction = "Withdrawn " + to_string(amountW) + "$  Date: " + __DATE__ + " Time: " + __TIME__;
+                string transaction = "Withdrawn " + to_string(amountW) + "$  Date: " + __DATE__  ;
                 userAccount.setTransaction(transaction);
                 // accounts.insertAccount(userAccount);
             }

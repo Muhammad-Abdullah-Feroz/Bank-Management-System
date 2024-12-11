@@ -148,6 +148,10 @@ public:
     {
         accountNumber = n;
     }
+    void setAmount(int n)
+    {
+        amount = n;
+    }
     void addAmount(int n)
     {
         amount += n;
