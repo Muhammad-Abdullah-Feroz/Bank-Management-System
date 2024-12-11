@@ -22,6 +22,11 @@ public:
     int id;
     string username;
     string password;
+    User(){
+        id = 0;
+        username = "";
+        password = "";
+    }
 };
 class TransactionStack;
 
@@ -133,6 +138,14 @@ public:
     {
         userID = n;
     }
+    void setName(string n)
+    {
+        name = n;
+    }
+    void setAccountNumber(string n)
+    {
+        accountNumber = n;
+    }
     void addAmount(int n)
     {
         amount += n;
@@ -149,13 +162,13 @@ public:
     {
         return userID;
     }
-    void setName(string n)
-    {
-        name = n;
-    }
     string getName()
     {
         return name;
+    }
+    string getAccountNumber()
+    {
+        return accountNumber;
     }
     void setTransaction(string transaction)
     {
