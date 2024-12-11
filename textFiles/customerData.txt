@@ -13,11 +13,6 @@ John Doe
 AC123456
 5000
 
-3
-Jim Beam
-AC123458
-3000
-
 6
 Kainat Khurram
 AC123461
@@ -37,4 +32,9 @@ AC123462
 Iqra Saleem
 184146
 5000
+
+9
+Mehboob Alam
+AC213430
+2500
 

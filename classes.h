@@ -22,7 +22,8 @@ public:
     int id;
     string username;
     string password;
-    User(){
+    User()
+    {
         id = 0;
         username = "";
         password = "";
@@ -99,7 +100,8 @@ public:
         short count = 1;
         while (current != nullptr)
         {
-            cout << endl << count << ". " << current->transaction << endl;
+            cout << endl
+                 << count << ". " << current->transaction << endl;
             current = current->next;
             count++;
         }
@@ -295,7 +297,68 @@ class AccountBST
         }
     }
 
+    AccountNode *deleteNode(AccountNode *root, int userID)
+    {
+        if (!root)
+            return nullptr;
+
+        if (userID < root->acc.userID)
+        {
+            root->left = deleteNode(root->left, userID);
+        }
+        else if (userID > root->acc.userID)
+        {
+            root->right = deleteNode(root->right, userID);
+        }
+        else
+        {
+            // Case 1: Node with no children
+            if (!root->left && !root->right)
+            {
+                delete root;
+                return nullptr;
+            }
+
+            // Case 2: Node with one child
+            if (!root->left)
+            {
+                AccountNode *temp = root->right;
+                temp->parent = root->parent;
+                delete root;
+                return temp;
+            }
+            else if (!root->right)
+            {
+                AccountNode *temp = root->left;
+                temp->parent = root->parent;
+                delete root;
+                return temp;
+            }
+
+            // Case 3: Node with two children
+            AccountNode *successor = findMin(root->right);
+            root->acc = successor->acc; // Replace with successor's data
+            root->right = deleteNode(root->right, successor->acc.userID);
+        }
+
+        return root;
+    }
+
+    AccountNode *findMin(AccountNode *node)
+    {
+        while (node && node->left)
+        {
+            node = node->left;
+        }
+        return node;
+    }
+
 public:
+    void deleteAccount(int userID)
+    {
+        root = deleteNode(root, userID);
+    }
+
     AccountBST()
     {
         root = nullptr;

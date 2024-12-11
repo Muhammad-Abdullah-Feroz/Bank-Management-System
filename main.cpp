@@ -227,7 +227,49 @@ void addAccounts(AccountBST &accounts, vector<User> &users)
     cout << endl
          << "Account Added Successfully";
 }
-
+void deleteAccount(AccountBST &accounts , vector<User> &users)
+{
+    int id;
+    accounts.displayAccounts();
+    cout << endl << endl 
+         << "Enter Account ID to Delete: ";
+    cin >> id;
+    Account &acc = accounts.searchAccount(id);
+    if (acc.getID() == 0)
+    {
+        cout << endl
+             << "Account Not Found";
+        return;
+    }
+    accounts.deleteAccount(id);
+    for(int i = 3 ; i < users.size() ; i++)
+    {
+        if(users[i].id == id)
+        {
+            users.erase(users.begin() + i);
+            break;
+        }
+    }
+    cout << endl
+         << "Account Deleted Successfully";
+}
+void updateAccount(AccountBST& accounts , vector<User> &users){
+    int id;
+    cout<<endl<<"Enter User ID to update account : ";
+    cin >> id;
+    
+    Account& userAcc = accounts.searchAccount(id);
+    if(userAcc.getID() == 0){
+        cout<<endl<<"Account Not Found";
+        return;
+    }
+    cout<<endl<<"Enter New Name : ";
+    string name;
+    cin.ignore();
+    getline(cin , name);
+    userAcc.setName(name);
+    cout<<endl<<"Account Updated Successfully";
+}
 void manageAccounts(AccountBST &accounts, vector<User> &users)
 {
     char choice;
@@ -257,6 +299,7 @@ void manageAccounts(AccountBST &accounts, vector<User> &users)
         case '2':
             cout << endl
                  << "Delete Account";
+            deleteAccount(accounts, users);
             break;
 
         case '3':
@@ -279,55 +322,6 @@ void manageAccounts(AccountBST &accounts, vector<User> &users)
         }
     }
 }
-// {
-//     char choice;
-//     bool exit = false;
-
-//     while (!exit)
-//     {
-//         refresh();
-//         cout << endl
-//              << "1. Add Account" << endl
-//              << "2. Delete Account" << endl
-//              << "3. Update Account Details" << endl
-//              << "4. Display All Accounts" << endl
-//              << "0. Exit" << endl
-//              << endl
-//              << "Your Choice : ";
-//         cin >> choice;
-
-//         switch (choice)
-//         {
-//         case '1':
-//             cout << endl
-//                  << "Add Account";
-//             break;
-
-//         case '2':
-//             cout << endl
-//                  << "Delete Account";
-//             break;
-
-//         case '3':
-//             cout << endl
-//                  << "Update Account";
-//             break;
-
-//         case '4':
-//             cout << endl
-//                  << "Displaying Accounts"
-//                  << endl
-//                  << "===================" << endl
-//                  << endl;
-//             accounts.displayAccounts();
-//             break;
-
-//         case '0':
-//             exit = true;
-//             break;
-//         }
-//     }
-// }
 
 // Customer Functions
 void performTransaction(Account &userAccount, AccountBST &accounts)
