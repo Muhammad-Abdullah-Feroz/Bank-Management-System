@@ -45,61 +45,39 @@ public:
     }
 };
 
-class TransactionStack
-{
+class TransactionStack {
 private:
-    tNode *top;
-    int maxSize;
+    tNode* top;
     int currentSize;
 
 public:
-    TransactionStack() : top(nullptr), maxSize(5), currentSize(0) {}
+    TransactionStack() : top(nullptr), currentSize(0) {}
 
-    ~TransactionStack()
-    {
-        while (top != nullptr)
-        {
-            tNode *temp = top;
+    ~TransactionStack() {
+        while (top != nullptr) {
+            tNode* temp = top;
             top = top->next;
             delete temp;
         }
     }
 
-    void addTransaction(const string &transaction)
-    {
-        if (currentSize == maxSize)
-        {
-            tNode *current = top;
-            while (current->next != nullptr && current->next->next != nullptr)
-            {
-                current = current->next;
-            }
-
-            tNode *temp = current->next;
-            current->next = nullptr;
-            delete temp;
-            currentSize--;
-        }
-
-        tNode *newtNode = new tNode(transaction);
+    void addTransaction(const string& transaction) {
+        tNode* newtNode = new tNode(transaction);
         newtNode->next = top;
         top = newtNode;
         currentSize++;
     }
 
-    void displayTransactions() const
-    {
-        if (top == nullptr)
-        {
+    void displayTransactions() const {
+        if (top == nullptr) {
             cout << "No transactions recorded." << endl;
             return;
         }
 
         cout << "Transactions:" << endl;
-        tNode *current = top;
+        tNode* current = top;
         short count = 1;
-        while (current != nullptr)
-        {
+        while (current != nullptr) {
             cout << endl
                  << count << ". " << current->transaction << endl;
             current = current->next;
@@ -107,16 +85,36 @@ public:
         }
     }
 
-    bool isEmpty() const
-    {
+    void displayTopNTransactions(int n) const {
+        if (top == nullptr) {
+            cout << "No transactions recorded." << endl;
+            return;
+        }
+
+        if (n <= 0) {
+            cout << "Invalid number of transactions to display." << endl;
+            return;
+        }
+
+        tNode* current = top;
+        short count = 1;
+        while (current != nullptr && count <= n) {
+            cout << endl
+                 << count << ". " << current->transaction << endl;
+            current = current->next;
+            count++;
+        }
+    }
+
+    bool isEmpty() const {
         return top == nullptr;
     }
 
-    int transactionCount() const
-    {
+    int transactionCount() const {
         return currentSize;
     }
 };
+
 
 class AccountBST;
 class Account
@@ -183,6 +181,10 @@ public:
     void displayTransactions()
     {
         transactions.displayTransactions();
+    }
+    void displayTransactions(int n)
+    {
+        transactions.displayTopNTransactions(n);
     }
     void displayAccount()
     {
@@ -447,7 +449,7 @@ class transactionRequest
 {
     int senderID;
     int recieverID;
-    float amount;
+    int amount;
     friend class transactionQueue;
 
 public:
@@ -464,7 +466,7 @@ public:
     {
         recieverID = id;
     }
-    void setAmount(float n)
+    void setAmount(int n)
     {
         amount = n;
     }
@@ -476,7 +478,7 @@ public:
     {
         return recieverID;
     }
-    float getAmount()
+    int getAmount()
     {
         return amount;
     }
@@ -531,7 +533,6 @@ public:
         transactionRequest tr;
         if (head == nullptr)
         {
-            std::cout << "Queue is empty.\n";
             return tr;
         }
 
@@ -548,7 +549,6 @@ public:
 
         tr = temp->transaction;
         delete temp;
-        std::cout << "Transaction dequeued successfully.\n";
         return tr;
     }
 
@@ -556,16 +556,16 @@ public:
     {
         if (head == nullptr)
         {
-            std::cout << "Queue is empty.\n";
+            cout << "No pending transaction...\n";
             return;
         }
 
         transactionNode *current = head;
         while (current != nullptr)
         {
-            std::cout << "Sender ID: " << current->transaction.getSender() << ", ";
-            std::cout << "Receiver ID: " << current->transaction.getReciever() << ", ";
-            std::cout << "Amount: " << current->transaction.getAmount() << "\n";
+            cout <<endl << "Sender ID: " << current->transaction.getSender() << ", ";
+            cout << "Receiver ID: " << current->transaction.getReciever() << ", ";
+            cout << "Amount: " << current->transaction.getAmount() << "\n";
             current = current->next;
         }
     }

@@ -1,30 +1,30 @@
 4
 Jack Daniels
 AC123459
-3200
+5200
 
 2
 Jane Smith
 AC123457
-6430
+200
 
 1
 John Doe
 AC123456
-5000
+4225
 
 6
 Kainat Khurram
 AC123461
-80000
+82705
 
 5
 Jill Valentine
 AC123460
-4200
+6500
 
 7
-Muhammad Abdullah Feroz
+Muhammad Abdullah
 AC123462
 65000
 
@@ -33,8 +33,8 @@ Iqra Saleem
 184146
 5000
 
-9
+11
 Mehboob Alam
-AC213430
-2500
+AC625360
+2200
 

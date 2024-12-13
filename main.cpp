@@ -213,13 +213,13 @@ void addAccounts(AccountBST &accounts, vector<User> &users)
     {
         cout << endl
              << "Invalid Amount"
-             <<endl
+             << endl
              << "Amount set to 0"
              << endl;
         return;
     }
     amount = amount < 0 ? 0 : amount;
-    
+
     acc.setID(user.id);
     acc.setAccountNumber(accNumber);
     acc.setName(name);
@@ -228,11 +228,12 @@ void addAccounts(AccountBST &accounts, vector<User> &users)
     cout << endl
          << "Account Added Successfully";
 }
-void deleteAccount(AccountBST &accounts , vector<User> &users)
+void deleteAccount(AccountBST &accounts, vector<User> &users)
 {
     int id;
     accounts.displayAccounts();
-    cout << endl << endl 
+    cout << endl
+         << endl
          << "Enter Account ID to Delete: ";
     cin >> id;
     Account &acc = accounts.searchAccount(id);
@@ -243,9 +244,9 @@ void deleteAccount(AccountBST &accounts , vector<User> &users)
         return;
     }
     accounts.deleteAccount(id);
-    for(int i = 3 ; i < users.size() ; i++)
+    for (int i = 3; i < users.size(); i++)
     {
-        if(users[i].id == id)
+        if (users[i].id == id)
         {
             users.erase(users.begin() + i);
             break;
@@ -254,34 +255,43 @@ void deleteAccount(AccountBST &accounts , vector<User> &users)
     cout << endl
          << "Account Deleted Successfully";
 }
-void updateAccount(AccountBST& accounts , vector<User> &users){
+void updateAccount(AccountBST &accounts, vector<User> &users)
+{
     int id;
     accounts.displayAccounts();
-    cout<<endl;
-    cout<<endl<<"Enter User ID to update account : ";
+    cout << endl;
+    cout << endl
+         << "Enter User ID to update account : ";
     cin >> id;
-    
-    Account& userAcc = accounts.searchAccount(id);
-    if(userAcc.getID() == 0){
-        cout<<endl<<"Account Not Found";
+
+    Account &userAcc = accounts.searchAccount(id);
+    if (userAcc.getID() == 0)
+    {
+        cout << endl
+             << "Account Not Found";
         return;
     }
-    cout<<endl<<"Enter New Name : ";
+    cout << endl
+         << "Enter New Name : ";
     string name;
     cin.ignore();
-    getline(cin , name);
+    getline(cin, name);
     userAcc.setName(name);
-    cout<<endl<<"Enter New Amount : ";
+    cout << endl
+         << "Enter New Amount : ";
     int amount;
-    cin>>amount;
-    if(amount < 0){
-        cout<<endl<<"Invalid Amount";
+    cin >> amount;
+    if (amount < 0)
+    {
+        cout << endl
+             << "Invalid Amount";
         return;
     }
     userAcc.setAmount(amount);
-    string transaction = "(ADMIN Msg) Updated Account Details..  New Amount : " + to_string(amount) + " $   Date: " + __DATE__  ;
+    string transaction = "(ADMIN Msg) Updated Account Details..  New Amount : " + to_string(amount) + " $   Date: " + __DATE__;
     userAcc.setTransaction(transaction);
-    cout<<endl<<"Account Updated Successfully";
+    cout << endl
+         << "Account Updated Successfully";
 }
 void manageAccounts(AccountBST &accounts, vector<User> &users)
 {
@@ -336,6 +346,59 @@ void manageAccounts(AccountBST &accounts, vector<User> &users)
         }
     }
 }
+void processTransactions(AccountBST &accounts)
+{
+    refresh();
+    char choice;
+    transactionRequest tr;
+    tr = transactions.deQueue();
+    if (tr.getSender() == 0)
+    {
+        cout << endl
+             << "No pending transactions" << endl;
+        return;
+    }
+    Account &sender = accounts.searchAccount(tr.getSender());
+    Account &reciever = accounts.searchAccount(tr.getReciever());
+    cout << endl
+         << "AMOUNT : " << tr.getAmount() << "$  FROM  " << sender.getName() << " (ID : " << tr.getSender() << " )  TO  " << reciever.getName() << " (ID : " << tr.getReciever() << " )";
+    cout << endl
+         << "1. Accept Transaction"
+         << endl
+         << "2. Reject Transaction";
+    cout << endl
+         << "Enter your choice : ";
+    cin >> choice;
+
+    switch (choice)
+    {
+    case '1':
+    {
+        string transaction;
+        if (sender.getAmount() > tr.getAmount())
+        {
+            sender.withdrawAmount(tr.getAmount());
+            reciever.addAmount(tr.getAmount());
+            transaction = "Transfer Accepted : " + to_string(tr.getAmount()) + "$ to Account Holder : " + reciever.getName() + " (ID : " + to_string(reciever.getID()) + " )";
+            sender.setTransaction(transaction);
+            transaction = "Received " + to_string(tr.getAmount()) + "$ from Account Holder: " + sender.getName() + " (ID: " + to_string(sender.getID()) + ")";
+            reciever.setTransaction(transaction);
+        }
+        else
+        {
+            transaction = "Transfer Declined Due to Low Balance : " + to_string(tr.getAmount()) + "$ to Account Holder : " + reciever.getName() + " (ID : " + to_string(reciever.getID()) + " )";
+            sender.setTransaction(transaction);
+        }
+        break;
+    }
+    case '2':
+    {
+        string transaction = "Transfer Declined by Administration : " + to_string(tr.getAmount()) + "$ to Account Holder : " + reciever.getName() + " (ID : " + to_string(reciever.getID()) + " )";
+        sender.setTransaction(transaction);
+        break;
+    }
+    }
+}
 
 // Customer Functions
 void performTransaction(Account &userAccount, AccountBST &accounts)
@@ -373,7 +436,7 @@ void performTransaction(Account &userAccount, AccountBST &accounts)
                  << "Amount Added Successfully";
             cout << endl
                  << "New Amount : " << userAccount.getAmount();
-            string transaction = "Deposited " + to_string(amount) + "$  Date: " + __DATE__  ;
+            string transaction = "Deposited " + to_string(amount) + "$  Date: " + __DATE__;
             userAccount.setTransaction(transaction);
             // userAccount.transactions.addTransaction(transaction);
             // accounts.insertAccount(userAccount);
@@ -401,7 +464,7 @@ void performTransaction(Account &userAccount, AccountBST &accounts)
                      << "Amount Withdrawn Successfully";
                 cout << endl
                      << "Remaining Amount : " << userAccount.getAmount();
-                string transaction = "Withdrawn " + to_string(amountW) + "$  Date: " + __DATE__  ;
+                string transaction = "Withdrawn " + to_string(amountW) + "$  Date: " + __DATE__;
                 userAccount.setTransaction(transaction);
                 // accounts.insertAccount(userAccount);
             }
@@ -450,6 +513,8 @@ void performTransaction(Account &userAccount, AccountBST &accounts)
                 // receiverAccount.addAmount(amountT);
                 string transaction = "Transfer Requested : " + to_string(amountT) + "$ to Account Holder: " + receiverAccount.getName() + " (ID: " + to_string(receiverAccount.getID()) + ")";
                 userAccount.setTransaction(transaction);
+                cout << endl
+                     << transaction;
                 // cout << endl
                 //      << transaction;
                 // transaction = "Received " + to_string(amountT) + "$ from Account Holder: " + userAccount.getName() + " (ID: " + to_string(userAccount.getID()) + ")";
@@ -518,7 +583,7 @@ void adminMenu(vector<User> &users, AccountBST &accounts)
             case '3':
                 cout << endl
                      << "Process Transactions";
-                transactions.displayQueue();
+                processTransactions(accounts);
                 break;
 
             case '4':
@@ -591,7 +656,7 @@ void customerMenu(vector<User> &users, AccountBST &accounts)
                 cout << endl
                      << "View Transaction History" << endl
                      << endl;
-                userAccount.displayTransactions();
+                userAccount.displayTransactions(5);
                 break;
 
             case '4':
