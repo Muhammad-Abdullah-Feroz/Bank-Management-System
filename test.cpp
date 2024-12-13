@@ -19,6 +19,31 @@ string generateAccountNumber() {
 int main(){
 vector<User> users;
 
+transactionRequest tr;
+tr.setSenderID(1);
+tr.setAmount(1000);
+tr.setReceieverID(2);
+transactionRequest tr1;
+tr1.setSenderID(3);
+tr1.setAmount(2000);
+tr1.setReceieverID(4);
+transactionRequest tr2;
+tr2.setSenderID(5);
+tr2.setAmount(5000);
+tr2.setReceieverID(6);
+
+transactionQueue tq;
+tq.displayQueue();
+tq.enQueue(tr);
+tq.displayQueue();
+tq.enQueue(tr1);
+tq.displayQueue();
+tq.enQueue(tr2);
+tq.displayQueue();
+tq.deQueue();
+tq.displayQueue();
+tq.deQueue();
+tq.displayQueue();
 // ifstream file;
 //     file.open("textFiles/accountsData.txt");
 //     if(!file){

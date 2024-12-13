@@ -9,6 +9,7 @@
 
 using namespace std;
 
+transactionQueue transactions;
 
 // Utility Functions
 string generateAccountNumber()
@@ -445,16 +446,19 @@ void performTransaction(Account &userAccount, AccountBST &accounts)
             }
             else
             {
-                userAccount.withdrawAmount(amountT);
-                receiverAccount.addAmount(amountT);
-                string transaction = "Transferred " + to_string(amountT) + "$ to Account Holder: " + receiverAccount.getName() + " (ID: " + to_string(receiverAccount.getID()) + ")";
+                // userAccount.withdrawAmount(amountT);
+                // receiverAccount.addAmount(amountT);
+                string transaction = "Transfer Requested : " + to_string(amountT) + "$ to Account Holder: " + receiverAccount.getName() + " (ID: " + to_string(receiverAccount.getID()) + ")";
                 userAccount.setTransaction(transaction);
-                cout << endl
-                     << transaction;
-                transaction = "Received " + to_string(amountT) + "$ from Account Holder: " + userAccount.getName() + " (ID: " + to_string(userAccount.getID()) + ")";
-                receiverAccount.setTransaction(transaction);
-                // accounts.insertAccount(userAccount);
-                // accounts.insertAccount(receiverAccount);
+                // cout << endl
+                //      << transaction;
+                // transaction = "Received " + to_string(amountT) + "$ from Account Holder: " + userAccount.getName() + " (ID: " + to_string(userAccount.getID()) + ")";
+                // receiverAccount.setTransaction(transaction);
+                transactionRequest tr;
+                tr.setSenderID(userAccount.getID());
+                tr.setReceieverID(id);
+                tr.setAmount(amountT);
+                transactions.enQueue(tr);
             }
             break;
         }
@@ -514,6 +518,7 @@ void adminMenu(vector<User> &users, AccountBST &accounts)
             case '3':
                 cout << endl
                      << "Process Transactions";
+                transactions.displayQueue();
                 break;
 
             case '4':

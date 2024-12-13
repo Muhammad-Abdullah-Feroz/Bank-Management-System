@@ -221,7 +221,6 @@ public:
         parent = nullptr;
     }
 };
-
 class AccountBST
 {
     AccountNode *root;
@@ -440,5 +439,134 @@ public:
             this->insertAccount(a);
         }
         file.close();
+    }
+};
+
+class transactionQueue;
+class transactionRequest
+{
+    int senderID;
+    int recieverID;
+    float amount;
+    friend class transactionQueue;
+
+public:
+    transactionRequest()
+    {
+        senderID = recieverID = 0;
+        amount = 0;
+    }
+    void setSenderID(int id)
+    {
+        senderID = id;
+    }
+    void setReceieverID(int id)
+    {
+        recieverID = id;
+    }
+    void setAmount(float n)
+    {
+        amount = n;
+    }
+    int getSender()
+    {
+        return senderID;
+    }
+    int getReciever()
+    {
+        return recieverID;
+    }
+    float getAmount()
+    {
+        return amount;
+    }
+};
+class transactionNode
+{
+    transactionRequest transaction;
+    transactionNode *next;
+    transactionNode *prev;
+    friend class transactionQueue;
+
+public:
+    transactionNode()
+    {
+        next = prev = nullptr;
+    }
+    transactionNode(transactionRequest trans)
+    {
+        this->transaction = trans;
+        next = prev = nullptr;
+    }
+};
+class transactionQueue
+{
+
+    transactionNode *head;
+    transactionNode *tail;
+
+public:
+    transactionQueue()
+    {
+        tail = head = nullptr;
+    }
+    void enQueue(transactionRequest transaction)
+    {
+        transactionNode *newNode = new transactionNode(transaction);
+        if (head == nullptr)
+        {
+            head = newNode;
+            tail = head;
+        }
+        else
+        {
+            tail->next = newNode;
+            newNode->prev = tail;
+            tail = newNode;
+        }
+    }
+
+    transactionRequest deQueue()
+    {
+        transactionRequest tr;
+        if (head == nullptr)
+        {
+            std::cout << "Queue is empty.\n";
+            return tr;
+        }
+
+        transactionNode *temp = head;
+        if (head == tail)
+        { // Only one element in the queue
+            head = tail = nullptr;
+        }
+        else
+        {
+            head = head->next;
+            head->prev = nullptr;
+        }
+
+        tr = temp->transaction;
+        delete temp;
+        std::cout << "Transaction dequeued successfully.\n";
+        return tr;
+    }
+
+    void displayQueue()
+    {
+        if (head == nullptr)
+        {
+            std::cout << "Queue is empty.\n";
+            return;
+        }
+
+        transactionNode *current = head;
+        while (current != nullptr)
+        {
+            std::cout << "Sender ID: " << current->transaction.getSender() << ", ";
+            std::cout << "Receiver ID: " << current->transaction.getReciever() << ", ";
+            std::cout << "Amount: " << current->transaction.getAmount() << "\n";
+            current = current->next;
+        }
     }
 };
