@@ -36,6 +36,7 @@ class tNode
     string transaction;
     tNode *next;
     friend class TransactionStack;
+    friend class AccountBST;
 
 public:
     tNode(const string &transaction)
@@ -45,39 +46,46 @@ public:
     }
 };
 
-class TransactionStack {
+class TransactionStack
+{
 private:
-    tNode* top;
+    tNode *top;
     int currentSize;
-
+    friend class AccountBST;
 public:
     TransactionStack() : top(nullptr), currentSize(0) {}
 
-    ~TransactionStack() {
-        while (top != nullptr) {
-            tNode* temp = top;
+    ~TransactionStack()
+    {
+        while (top != nullptr)
+        {
+            tNode *temp = top;
             top = top->next;
             delete temp;
         }
     }
 
-    void addTransaction(const string& transaction) {
-        tNode* newtNode = new tNode(transaction);
+    void addTransaction(const string &transaction)
+    {
+        tNode *newtNode = new tNode(transaction);
         newtNode->next = top;
         top = newtNode;
         currentSize++;
     }
 
-    void displayTransactions() const {
-        if (top == nullptr) {
+    void displayTransactions() const
+    {
+        if (top == nullptr)
+        {
             cout << "No transactions recorded." << endl;
             return;
         }
 
         cout << "Transactions:" << endl;
-        tNode* current = top;
+        tNode *current = top;
         short count = 1;
-        while (current != nullptr) {
+        while (current != nullptr)
+        {
             cout << endl
                  << count << ". " << current->transaction << endl;
             current = current->next;
@@ -85,20 +93,24 @@ public:
         }
     }
 
-    void displayTopNTransactions(int n) const {
-        if (top == nullptr) {
+    void displayTopNTransactions(int n) const
+    {
+        if (top == nullptr)
+        {
             cout << "No transactions recorded." << endl;
             return;
         }
 
-        if (n <= 0) {
+        if (n <= 0)
+        {
             cout << "Invalid number of transactions to display." << endl;
             return;
         }
 
-        tNode* current = top;
+        tNode *current = top;
         short count = 1;
-        while (current != nullptr && count <= n) {
+        while (current != nullptr && count <= n)
+        {
             cout << endl
                  << count << ". " << current->transaction << endl;
             current = current->next;
@@ -106,15 +118,16 @@ public:
         }
     }
 
-    bool isEmpty() const {
+    bool isEmpty() const
+    {
         return top == nullptr;
     }
 
-    int transactionCount() const {
+    int transactionCount() const
+    {
         return currentSize;
     }
 };
-
 
 class AccountBST;
 class Account
@@ -291,12 +304,21 @@ class AccountBST
     {
         if (root != nullptr)
         {
-            // Write each account's data in the correct format
             file << root->acc.userID << endl;
             file << root->acc.name << endl;
             file << root->acc.accountNumber << endl;
-            file << root->acc.amount << endl
-                 << endl;
+            file << root->acc.amount << endl;
+
+            // Save transactions
+            file << root->acc.transactions.transactionCount() << endl; // Number of transactions
+            tNode *current = root->acc.transactions.top;
+            while (current != nullptr)
+            {
+                file << current->transaction << endl;
+                current = current->next;
+            }
+            file << endl; // Separate entries with an empty line
+
             saveNodesToFile(root->left, file);
             saveNodesToFile(root->right, file);
         }
@@ -409,39 +431,49 @@ public:
         }
     }
 
-    void loadTreeFromFile(string filepath)
-    {
-        ifstream file;
-        file.open(filepath);
+   void loadTreeFromFile(string filepath) {
+    ifstream file;
+    file.open(filepath);
 
-        if (!file)
-        {
-            cout << endl
-                 << "File Not Found!" << endl;
-            return;
-        }
-
-        while (!file.eof())
-        {
-            Account a;
-            // Read the account details in the same order they are written to the file
-            file >> a.userID;
-            file.ignore();                  // Ignore newline after reading userID
-            getline(file, a.name);          // Read the name
-            getline(file, a.accountNumber); // Read the account number
-            file >> a.amount;
-            file.ignore(); // Ignore newline after reading the amount
-
-            a.displayAccount();
-
-            if (a.userID == 0)
-            {
-                break;
-            }
-            this->insertAccount(a);
-        }
-        file.close();
+    if (!file) {
+        cout << endl
+             << "File Not Found!" << endl;
+        return;
     }
+
+    while (!file.eof()) {
+        Account a;
+
+        file >> a.userID;
+        if (file.eof()) break; 
+        file.ignore();                  
+        getline(file, a.name);         
+        getline(file, a.accountNumber); 
+        file >> a.amount;
+        file.ignore(); 
+
+        this->insertAccount(a);
+
+        Account &refAccount = this->searchAccount(a.userID);
+
+        int transactionCount;
+        file >> transactionCount; 
+        file.ignore();
+
+        vector<string> transactions;
+        for (int i = 0; i < transactionCount; i++) {
+            string transaction;
+            getline(file, transaction); 
+            transactions.push_back(transaction);
+        }
+
+        for (int i = transactionCount - 1; i >= 0; i--) {
+            refAccount.setTransaction(transactions[i]);
+        }
+    }
+
+    file.close();
+}
 };
 
 class transactionQueue;
@@ -552,7 +584,8 @@ public:
         return tr;
     }
 
-    void readFromFile(){
+    void readFromFile()
+    {
         ifstream file;
         file.open("textFiles/transactionData.txt");
         if (!file)
@@ -578,7 +611,8 @@ public:
             file.close();
         }
     }
-    void writeToFile(){
+    void writeToFile()
+    {
         ofstream file;
         file.open("textFiles/transactionData.txt");
         if (!file)
@@ -593,7 +627,8 @@ public:
             {
                 file << current->transaction.senderID << endl;
                 file << current->transaction.recieverID << endl;
-                file << current->transaction.amount << endl<<endl;
+                file << current->transaction.amount << endl
+                     << endl;
                 current = current->next;
             }
             file.close();
@@ -611,7 +646,8 @@ public:
         transactionNode *current = head;
         while (current != nullptr)
         {
-            cout <<endl << "Sender ID: " << current->transaction.getSender() << ", ";
+            cout << endl
+                 << "Sender ID: " << current->transaction.getSender() << ", ";
             cout << "Receiver ID: " << current->transaction.getReciever() << ", ";
             cout << "Amount: " << current->transaction.getAmount() << "\n";
             current = current->next;
