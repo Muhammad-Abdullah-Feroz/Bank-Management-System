@@ -757,16 +757,20 @@ void mainMenu(vector<User> &users, AccountBST &accounts)
 // Main Function
 int main()
 {
+    
     AccountBST accounts;
     string filepathAcc = "textFiles/customerData.txt";
     accounts.loadTreeFromFile(filepathAcc);
     vector<User> users;
     loadLoginData(users);
+    transactions.readFromFile();
+    transactions.displayQueue();
 
     mainMenu(users, accounts);
     accounts.displayAccounts();
     accounts.saveTreeToFile(filepathAcc);
     writeLoginData(users);
+    transactions.writeToFile();
     _getch();
     return 0;
 }

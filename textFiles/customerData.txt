@@ -1,17 +1,17 @@
 4
 Jack Daniels
 AC123459
-5200
+4600
 
 2
 Jane Smith
 AC123457
-200
+900
 
 1
 John Doe
 AC123456
-4225
+3925
 
 6
 Kainat Khurram
@@ -21,7 +21,7 @@ AC123461
 5
 Jill Valentine
 AC123460
-6500
+7500
 
 7
 Abdullah Feroz

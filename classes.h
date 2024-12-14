@@ -552,6 +552,54 @@ public:
         return tr;
     }
 
+    void readFromFile(){
+        ifstream file;
+        file.open("textFiles/transactionData.txt");
+        if (!file)
+        {
+            cout << endl
+                 << "File Not Found !";
+        }
+        else
+        {
+            while (!file.eof())
+            {
+                transactionRequest tr;
+                file >> tr.senderID;
+                file >> tr.recieverID;
+                file >> tr.amount;
+                file.ignore();
+                if (tr.senderID == 0)
+                {
+                    break;
+                }
+                enQueue(tr);
+            }
+            file.close();
+        }
+    }
+    void writeToFile(){
+        ofstream file;
+        file.open("textFiles/transactionData.txt");
+        if (!file)
+        {
+            cout << endl
+                 << "File Not Found !";
+        }
+        else
+        {
+            transactionNode *current = head;
+            while (current != nullptr)
+            {
+                file << current->transaction.senderID << endl;
+                file << current->transaction.recieverID << endl;
+                file << current->transaction.amount << endl<<endl;
+                current = current->next;
+            }
+            file.close();
+        }
+    }
+
     void displayQueue()
     {
         if (head == nullptr)
