@@ -188,17 +188,28 @@ void manageBranches()
             cout << endl
                  << "Enter the branch Name : ";
             getline(cin, branch);
-
+            cout<<branch;
+            if(branch == "") {
+                cout<<endl<<"Invalid Branch Name...";
+                break;
+            };
+            if(branches.exists(branch)){
+                cout<<endl<<"Branch Already Exists...";
+                break;
+            }
+            cout<<endl<<"Adding Branch : "<<branch;
             branches.addBranch(branch);
-
-            // Add branch logic here
             break;
         }
         case '2':
         {
 
             cout << endl
-                 << "View Branch";
+                 << "View Branches"<<endl;
+            if(branches.isEmpty()){
+                cout<<endl<<"No Branches Found...";
+                break;
+            }
             branches.displayBranches();
             break;
         }
@@ -206,12 +217,12 @@ void manageBranches()
         {
 
             cout << endl
-                 << "Add Connection";
+                 << "Add Connection"<<endl<<endl;
             branches.displayBranches();
             int idx1 , idx2;
-            cout<<endl<<"Choose first branch : ";
+            cout<<endl<<"Choose first branch (S. No)) : ";
             cin >> idx1;
-            cout<<"Choose second Branch : ";
+            cout<<"Choose second Branch (S. No.) : ";
             cin >> idx2;
             string branch1 = branches.findBranch(idx1);
             string branch2 = branches.findBranch(idx2);
@@ -233,7 +244,7 @@ void manageBranches()
         {
 
             cout << endl
-                 << "Calculate shortest Distance Between two branches" << endl;
+                 << "Calculate shortest Distance Between two branches" << endl<<endl;
             branches.displayBranches();
             string start, end;
             int startIdx, endIdx;
@@ -255,7 +266,6 @@ void manageBranches()
                      << "Invalid Choice...." << endl;
             }
 
-            // Calculate shortest distance logic here
             break;
         }
         case '0':
@@ -314,6 +324,8 @@ void addAccounts(AccountBST &accounts, vector<User> &users)
     {
         cout << endl
              << "Invalid User Entry";
+        cin.ignore();
+        _getch();
         return;
     }
     accNumber = generateAccountNumber();
@@ -334,7 +346,7 @@ void addAccounts(AccountBST &accounts, vector<User> &users)
         return;
     }
     amount = amount < 0 ? 0 : amount;
-
+    
     acc.setID(user.id);
     acc.setAccountNumber(accNumber);
     acc.setName(name);
@@ -888,7 +900,6 @@ void mainMenu(vector<User> &users, AccountBST &accounts)
 // Main Function
 int main()
 {
-
     AccountBST accounts;
     string filepathAcc = "textFiles/customerData.txt";
     string graphFile = "textFiles/graphData.txt";

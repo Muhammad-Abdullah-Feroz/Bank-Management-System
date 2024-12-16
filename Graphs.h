@@ -180,11 +180,13 @@ public:
 
     void addBranch(const string &branchName)
     {
+        cout<<endl<<"Adding Branch : "<<branchName;
         if (!findBranchNode(branchName))
         {
             BranchNode *newBranch = new BranchNode(branchName);
             newBranch->next = head;
             head = newBranch;
+            cout<<endl<<"Branch Added Successfully";
         }
     }
 
@@ -247,6 +249,11 @@ public:
         }
     }
 
+    bool isEmpty() const
+    {
+        return head == nullptr;
+    }
+
     void displayBranches() const
     {
         BranchNode* current = head;
@@ -265,13 +272,13 @@ public:
             if(current->branchName == branch){
                 return true;
             }
+            current = current->next;
         }
         return false;
     }
 
     string& findBranch(int idx){
         int count = 0;
-        string branch = "";
         BranchNode* current = head;
         while(current){
             count++;
@@ -281,7 +288,8 @@ public:
             current = current->next;
 
         }
-        return branch;
+        string *branch = new string ("");
+        return *branch;
     }
 
     int shortestPath(const string &startBranch, const string &endBranch)
@@ -361,7 +369,7 @@ public:
         string current = previous[endIndex];
         while (!current.empty())
         {
-            path = current + " <- " + path;
+            path = current + " -> " + path;
             current = previous[findIndex(current, branchArray, size)];
         }
 
