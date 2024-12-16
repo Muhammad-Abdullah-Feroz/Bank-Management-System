@@ -138,7 +138,7 @@ class Account
     string name;
     string accountNumber;
     string branchName;
-    int amount;
+    float amount;
     TransactionStack transactions;
     friend class AccountBST;
 
@@ -166,7 +166,7 @@ public:
     {
         branchName = n;
     }
-    void setAmount(int n)
+    void setAmount(float n)
     {
         amount = n;
     }
@@ -178,7 +178,7 @@ public:
     {
         amount -= n;
     }
-    int getAmount()
+    float getAmount()
     {
         return amount;
     }
@@ -495,7 +495,7 @@ class transactionRequest
 {
     int senderID;
     int recieverID;
-    int amount;
+    float amount;
     friend class transactionQueue;
 
 public:
@@ -512,7 +512,7 @@ public:
     {
         recieverID = id;
     }
-    void setAmount(int n)
+    void setAmount(float n)
     {
         amount = n;
     }
@@ -524,7 +524,7 @@ public:
     {
         return recieverID;
     }
-    int getAmount()
+    float getAmount()
     {
         return amount;
     }

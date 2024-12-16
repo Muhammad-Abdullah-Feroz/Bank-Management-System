@@ -284,7 +284,7 @@ void addAccounts(AccountBST &accounts, vector<User> &users)
     Account acc;
     string accNumber;
     string name;
-    int amount;
+    float amount;
     User user;
     cout << endl
          << "Enter Account Details";
@@ -419,7 +419,7 @@ void updateAccount(AccountBST &accounts, vector<User> &users)
     userAcc.setName(name);
     cout << endl
          << "Enter New Amount : ";
-    int amount;
+    float amount;
     cin >> amount;
     if (amount < 0)
     {
@@ -603,7 +603,7 @@ void performTransaction(Account &userAccount, AccountBST &accounts)
         {
             cout << endl
                  << "Deposit Amount";
-            int amount;
+            float amount;
             cout << endl
                  << "Enter Amount to Deposit : ";
             cin >> amount;
@@ -623,7 +623,7 @@ void performTransaction(Account &userAccount, AccountBST &accounts)
         {
             cout << endl
                  << "Withdraw Amount";
-            int amountW;
+            float amountW;
             cout << endl
                  << "Current Amount : " << userAccount.getAmount() << endl
                  << "Enter Amount to Withdraw : ";
@@ -674,7 +674,7 @@ void performTransaction(Account &userAccount, AccountBST &accounts)
                      << "Account Not Found";
                 break;
             }
-            int amountT;
+            float amountT;
             cout << endl
                  << "Enter Amount to Transfer : ";
             cin >> amountT;
