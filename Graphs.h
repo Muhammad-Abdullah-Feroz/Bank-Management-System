@@ -247,6 +247,43 @@ public:
         }
     }
 
+    void displayBranches() const
+    {
+        BranchNode* current = head;
+        int count = 1;
+        while(current){
+            cout<<count<<" . "<<current->branchName<<endl;
+            current = current->next;
+            count++;
+        }
+    }
+
+    bool exists(const string &branch){
+        // bool exist = false;
+        BranchNode* current = head;
+        while(current){
+            if(current->branchName == branch){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    string& findBranch(int idx){
+        int count = 0;
+        string branch = "";
+        BranchNode* current = head;
+        while(current){
+            count++;
+            if(count == idx){
+                return current->branchName;
+            }
+            current = current->next;
+
+        }
+        return branch;
+    }
+
     int shortestPath(const string &startBranch, const string &endBranch)
     {
         int size = 0;

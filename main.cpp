@@ -10,6 +10,7 @@
 using namespace std;
 
 transactionQueue transactions;
+BankGraph branches;
 
 // Utility Functions
 string generateAccountNumber()
@@ -153,6 +154,120 @@ bool userLogin(const vector<User> &users, int &userID)
 }
 
 // Admin Functions
+
+void manageBranches()
+{
+    char choice;
+    bool exit = false;
+    while (!exit)
+    {
+        refresh();
+        cout << endl
+             << "1. Add Branch"
+             << endl
+             << "2. View Branches"
+             << endl
+             << "3. Add Connection"
+             << endl
+             << "4. Calculate shortest Distance Between two branches"
+             << endl
+             << "0. Exit"
+             << endl
+             << "Your Choice: ";
+        cin >> choice;
+        cin.ignore();
+
+        switch (choice)
+        {
+        case '1':
+        {
+
+            cout << endl
+                 << "Add Branch";
+            string branch;
+            cout << endl
+                 << "Enter the branch Name : ";
+            getline(cin, branch);
+
+            branches.addBranch(branch);
+
+            // Add branch logic here
+            break;
+        }
+        case '2':
+        {
+
+            cout << endl
+                 << "View Branch";
+            branches.displayBranches();
+            break;
+        }
+        case '3':
+        {
+
+            cout << endl
+                 << "Add Connection";
+            branches.displayBranches();
+            int idx1 , idx2;
+            cout<<endl<<"Choose first branch : ";
+            cin >> idx1;
+            cout<<"Choose second Branch : ";
+            cin >> idx2;
+            string branch1 = branches.findBranch(idx1);
+            string branch2 = branches.findBranch(idx2);
+            if (branch1 != "" && branch2 != ""){
+                int weight = 0;
+                cout<<endl<<"Enter Cost Between "<<branch1<<" and "<<branch2<<" : ";
+                cin >> weight;
+                if(weight < 0){
+                    cout<<endl<<"Negative values not allowed..."<<endl<<"Weight set to '0'";
+                    weight = 0;
+                }
+                branches.addConnection(branch1 , branch2 , weight);
+            }else{
+                cout<<endl<<"Invalid Choice..."<<endl;
+            }
+            break;
+        }
+        case '4':
+        {
+
+            cout << endl
+                 << "Calculate shortest Distance Between two branches" << endl;
+            branches.displayBranches();
+            string start, end;
+            int startIdx, endIdx;
+            cout << endl
+                 << "Choose Starting Branch : ";
+            cin >> startIdx;
+            cout << endl
+                 << "Choose Ending Branch : ";
+            cin >> endIdx;
+            start = branches.findBranch(startIdx);
+            end = branches.findBranch(endIdx);
+            if (start != "" && end != "")
+            {
+                branches.shortestPath(start, end);
+            }
+            else
+            {
+                cout << endl
+                     << "Invalid Choice...." << endl;
+            }
+
+            // Calculate shortest distance logic here
+            break;
+        }
+        case '0':
+            exit = true;
+            break;
+        default:
+            cout << endl
+                 << "Invalid Choice";
+            break;
+        }
+    }
+}
 void addAccounts(AccountBST &accounts, vector<User> &users)
 {
     srand(time(0));
@@ -310,6 +425,7 @@ void manageAccounts(AccountBST &accounts, vector<User> &users)
              << endl
              << "Your Choice : ";
         cin >> choice;
+        cin.ignore();
 
         switch (choice)
         {
@@ -369,6 +485,7 @@ void processTransactions(AccountBST &accounts)
     cout << endl
          << "Enter your choice : ";
     cin >> choice;
+    cin.ignore();
 
     switch (choice)
     {
@@ -390,7 +507,8 @@ void processTransactions(AccountBST &accounts)
         {
             transaction = "Transfer Declined Due to Low Balance : " + to_string(tr.getAmount()) + "$ to Account Holder : " + reciever.getName() + " (ID : " + to_string(reciever.getID()) + " )  Date: " + __DATE__;
             sender.setTransaction(transaction);
-            cout<<endl<<transaction;
+            cout << endl
+                 << transaction;
         }
         break;
     }
@@ -398,7 +516,8 @@ void processTransactions(AccountBST &accounts)
     {
         string transaction = "Transfer Declined by Administration : " + to_string(tr.getAmount()) + "$ to Account Holder : " + reciever.getName() + " (ID : " + to_string(reciever.getID()) + " )  Date: " + __DATE__;
         sender.setTransaction(transaction);
-        cout<<endl<<transaction;
+        cout << endl
+             << transaction;
         break;
     }
     }
@@ -408,19 +527,26 @@ void generateReports(AccountBST &accounts)
     refresh();
     cout << endl;
     accounts.displayAccounts();
-    cout << endl<<endl<<"Enter Account ID to Generate Report : ";
+    cout << endl
+         << endl
+         << "Enter Account ID to Generate Report : ";
     int id;
-    cin>>id;
+    cin >> id;
     Account &acc = accounts.searchAccount(id);
-    if(acc.getID() == 0){
-        cout<<endl<<"Account Not Found";
+    if (acc.getID() == 0)
+    {
+        cout << endl
+             << "Account Not Found";
         return;
     }
-    cout<<endl<<"Generating Report : "<<endl;
-    cout<<endl<<"Account Details : "<<endl;
+    cout << endl
+         << "Generating Report : " << endl;
+    cout << endl
+         << "Account Details : " << endl;
     displayAccountHeader();
     acc.displayAccount();
-    cout<<endl<<"Transaction History : "<<endl;
+    cout << endl
+         << "Transaction History : " << endl;
     acc.displayTransactions();
 }
 
@@ -444,6 +570,7 @@ void performTransaction(Account &userAccount, AccountBST &accounts)
              << endl
              << "Your Choice : ";
         cin >> choice;
+        cin.ignore();
 
         switch (choice)
         {
@@ -589,12 +716,14 @@ void adminMenu(vector<User> &users, AccountBST &accounts)
                  << "Your Choice : ";
             // choice = _getche();
             cin >> choice;
+            cin.ignore();
 
             switch (choice)
             {
             case '1':
                 cout << endl
                      << "Manage Branches";
+                manageBranches();
                 break;
 
             case '2':
@@ -657,6 +786,7 @@ void customerMenu(vector<User> &users, AccountBST &accounts)
                  << "Your Choice: ";
             // choice = _getche();
             cin >> choice;
+            cin.ignore();
 
             switch (choice)
             {
@@ -727,6 +857,7 @@ void mainMenu(vector<User> &users, AccountBST &accounts)
              << "Your Choice : ";
         // choice = _getche();
         cin >> choice;
+        cin.ignore();
 
         switch (choice)
         {
@@ -757,12 +888,14 @@ void mainMenu(vector<User> &users, AccountBST &accounts)
 // Main Function
 int main()
 {
-    
+
     AccountBST accounts;
     string filepathAcc = "textFiles/customerData.txt";
+    string graphFile = "textFiles/graphData.txt";
     accounts.loadTreeFromFile(filepathAcc);
     vector<User> users;
     loadLoginData(users);
+    branches.readGraphFromFile(graphFile);
     transactions.readFromFile();
     transactions.displayQueue();
 
@@ -771,6 +904,7 @@ int main()
     accounts.saveTreeToFile(filepathAcc);
     writeLoginData(users);
     transactions.writeToFile();
+    branches.writeGraphToFile(graphFile);
     _getch();
     return 0;
 }
