@@ -220,7 +220,7 @@ void manageBranches()
                  << "Add Connection"<<endl<<endl;
             branches.displayBranches();
             int idx1 , idx2;
-            cout<<endl<<"Choose first branch (S. No)) : ";
+            cout<<endl<<"Choose first branch (S. No) : ";
             cin >> idx1;
             cout<<"Choose second Branch (S. No.) : ";
             cin >> idx2;
@@ -328,6 +328,18 @@ void addAccounts(AccountBST &accounts, vector<User> &users)
         _getch();
         return;
     }
+    string branchName;
+    int branchIdx;
+    cout<<endl<<"Choose the Branch : "<<endl;
+    branches.displayBranches();
+    do{
+    cout<<endl<<"Enter Branch Index : ";
+    cin >> branchIdx;
+    branchName = branches.findBranch(branchIdx);
+    if(branchName == ""){
+        cout<<endl<<"Invalid Branch Choice...";
+    }
+    }while(branchName == "");
     accNumber = generateAccountNumber();
     cout << endl
          << "Enter Account Holder Name: ";
@@ -348,6 +360,7 @@ void addAccounts(AccountBST &accounts, vector<User> &users)
     amount = amount < 0 ? 0 : amount;
     
     acc.setID(user.id);
+    acc.setBranchName(branchName);
     acc.setAccountNumber(accNumber);
     acc.setName(name);
     acc.addAmount(amount);
@@ -415,7 +428,7 @@ void updateAccount(AccountBST &accounts, vector<User> &users)
         return;
     }
     userAcc.setAmount(amount);
-    string transaction = "(ADMIN Msg) Updated Account Details..  New Amount : " + to_string(amount) + " $   Date: " + __DATE__;
+    string transaction = "(ADMIN Msg) Updated Account Details..  New Name : "+name+"  New Amount : " + to_string(amount) + " $   Date: " + __DATE__;
     userAcc.setTransaction(transaction);
     cout << endl
          << "Account Updated Successfully";

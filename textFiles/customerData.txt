@@ -1,17 +1,20 @@
 4
 Jack Daniels
+Branch 01
 AC123459
 4600
 0
 
 2
 Jane Smith
+Branch 02
 AC123457
 900
 0
 
 1
 John Doe
+Branch 03
 AC123456
 3925
 3
@@ -19,8 +22,17 @@ Transfer Requested : 10$ to Account Holder: Jill Valentine (ID: 5)  Date: Dec 14
 Transfer Requested : 10$ to Account Holder: Jack Daniels (ID: 4)  Date: Dec 14 2024
 Transfer Requested : 10$ to Account Holder: Jane Smith (ID: 2)  Date: Dec 14 2024
 
+3
+Abdul Rafeh
+Branch 04
+AC829397
+5050
+1
+(ADMIN Msg) Updated Account Details..  New Amount : 5050 $   Date: Dec 16 2024
+
 6
 Kainat Khurram
+Branch 01
 AC123461
 82705
 2
@@ -29,19 +41,15 @@ Transfer Requested : 10$ to Account Holder: John Doe (ID: 1)  Date: Dec 14 2024
 
 5
 Jill Valentine
+Branch 02
 AC123460
 7500
 0
 
 7
 Abdullah Feroz
+Branch 03
 AC123462
 65450
-0
-
-8
-Iqra Saleem
-AC184146
-5000
 0
 

@@ -9,12 +9,13 @@ using namespace std;
 
 void displayAccountHeader()
 {
-    cout << "-----------------------------------------------------------------------" << endl;
+    cout << "---------------------------------------------------------------------------------------------" << endl;
     cout << "| " << left << setw(10) << "UserID"
          << "| " << left << setw(20) << "Name"
+         << "| " << left << setw(20) << "Branch Name"
          << "| " << left << setw(16) << "Account Number"
          << "| " << right << setw(15) << "Amount" << " |" << endl;
-    cout << "-----------------------------------------------------------------------" << endl;
+    cout << "---------------------------------------------------------------------------------------------" << endl;
 }
 
 class User
@@ -136,6 +137,7 @@ class Account
     int userID;
     string name;
     string accountNumber;
+    string branchName;
     int amount;
     TransactionStack transactions;
     friend class AccountBST;
@@ -159,6 +161,10 @@ public:
     void setAccountNumber(string n)
     {
         accountNumber = n;
+    }
+    void setBranchName(string n)
+    {
+        branchName = n;
     }
     void setAmount(int n)
     {
@@ -184,6 +190,10 @@ public:
     {
         return name;
     }
+    string getBranchName()
+    {
+        return branchName;
+    }
     string getAccountNumber()
     {
         return accountNumber;
@@ -206,10 +216,11 @@ public:
         // cout << "-----------------------------------------------------------------------" << endl;
         cout << "| " << left << setw(10) << userID
              << "| " << left << setw(20) << name
+             << "| " << left << setw(20) << branchName
              << "| " << left << setw(16) << accountNumber
              << "| " << right << setw(15) << fixed << setprecision(2) << amount
              << " |" << endl;
-        cout << "-----------------------------------------------------------------------" << endl;
+        cout << "---------------------------------------------------------------------------------------------" << endl;
     }
 };
 
@@ -307,6 +318,7 @@ class AccountBST
         {
             file << root->acc.userID << endl;
             file << root->acc.name << endl;
+            file << root->acc.branchName << endl;
             file << root->acc.accountNumber << endl;
             file << root->acc.amount << endl;
 
@@ -448,7 +460,8 @@ public:
         file >> a.userID;
         if (file.eof()) break; 
         file.ignore();                  
-        getline(file, a.name);         
+        getline(file, a.name);   
+        getline(file, a.branchName);      
         getline(file, a.accountNumber); 
         file >> a.amount;
         file.ignore(); 
