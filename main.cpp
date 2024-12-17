@@ -439,18 +439,36 @@ void updateAccount(AccountBST &accounts, vector<User> &users)
     cin.ignore();
     getline(cin, name);
     userAcc.setName(name);
-    cout << endl
-         << "Enter New Amount : ";
     float amount;
-    cin >> amount;
-    if (amount < 0)
+    do
     {
         cout << endl
-             << "Invalid Amount";
-        return;
-    }
+             << "Enter New Amount : ";
+        cin >> amount;
+    } while (amount < 0);
+
     userAcc.setAmount(amount);
-    string transaction = "(ADMIN Msg) Updated Account Details..  New Name : " + name + "  New Amount : " + to_string(amount) + " $   Date: " + __DATE__;
+
+    cout<<endl<<"Choose New Branch : ";
+    branches.displayBranches();
+    string branchName;
+    int branchIdx;
+    do
+    {
+        cout << endl
+             << "Enter Branch Index : ";
+        cin >> branchIdx;
+        branchName = branches.findBranch(branchIdx);
+        if (branchName == "")
+        {
+            cout << endl
+                 << "Invalid Branch Choice...";
+        }
+    } while (branchName == "");
+
+    userAcc.setBranchName(branchName);
+
+    string transaction = "(ADMIN Msg) Updated Account Details..  New Name : " + name + "  New Amount : " + to_string(amount) + " $  New Branch : "+branchName+"   Date: " + __DATE__;
     userAcc.setTransaction(transaction);
     cout << endl
          << "Account Updated Successfully";
@@ -639,8 +657,12 @@ void performTransaction(Account &userAccount, AccountBST &accounts)
                  << "Deposit Amount";
             float amount;
             cout << endl
-                 << "Enter Amount to Deposit : ";
-            cin >> amount;
+                 << "Current Amount : " << userAccount.getAmount() << endl;
+            do
+            {
+                cout << "Enter Amount to Deposit : ";
+                cin >> amount;
+            } while (amount <= 0);
             userAccount.addAmount(amount);
             cout << endl
                  << "Amount Added Successfully";
@@ -659,9 +681,14 @@ void performTransaction(Account &userAccount, AccountBST &accounts)
                  << "Withdraw Amount";
             float amountW;
             cout << endl
-                 << "Current Amount : " << userAccount.getAmount() << endl
-                 << "Enter Amount to Withdraw : ";
-            cin >> amountW;
+                 << "Current Amount : " << userAccount.getAmount() << endl;
+
+            do
+            {
+
+                cout << "Enter Amount to Withdraw : ";
+                cin >> amountW;
+            } while (amountW <= 0);
             if (amountW > userAccount.getAmount())
             {
                 cout << endl
@@ -709,9 +736,12 @@ void performTransaction(Account &userAccount, AccountBST &accounts)
                 break;
             }
             float amountT;
-            cout << endl
-                 << "Enter Amount to Transfer : ";
-            cin >> amountT;
+            do
+            {
+                cout << endl
+                     << "Enter Amount to Transfer : ";
+                cin >> amountT;
+            } while (amountT <= 0);
             if (amountT > userAccount.getAmount())
             {
                 cout << endl
