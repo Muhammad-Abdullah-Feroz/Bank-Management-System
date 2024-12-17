@@ -496,6 +496,7 @@ class transactionRequest
     int senderID;
     int recieverID;
     float amount;
+    float tax;
     friend class transactionQueue;
 
 public:
@@ -516,6 +517,10 @@ public:
     {
         amount = n;
     }
+    void setTax(float n)
+    {
+        tax = n;
+    }
     int getSender()
     {
         return senderID;
@@ -527,6 +532,10 @@ public:
     float getAmount()
     {
         return amount;
+    }
+    float getTax()
+    {
+        return tax;
     }
 };
 class transactionNode
@@ -614,6 +623,7 @@ public:
                 transactionRequest tr;
                 file >> tr.senderID;
                 file >> tr.recieverID;
+                file >> tr.tax;
                 file >> tr.amount;
                 file.ignore();
                 if (tr.senderID == 0)
@@ -641,6 +651,7 @@ public:
             {
                 file << current->transaction.senderID << endl;
                 file << current->transaction.recieverID << endl;
+                file << current->transaction.tax << endl;
                 file << current->transaction.amount << endl
                      << endl;
                 current = current->next;

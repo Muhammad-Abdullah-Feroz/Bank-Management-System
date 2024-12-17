@@ -188,16 +188,21 @@ void manageBranches()
             cout << endl
                  << "Enter the branch Name : ";
             getline(cin, branch);
-            cout<<branch;
-            if(branch == "") {
-                cout<<endl<<"Invalid Branch Name...";
+            cout << branch;
+            if (branch == "")
+            {
+                cout << endl
+                     << "Invalid Branch Name...";
                 break;
             };
-            if(branches.exists(branch)){
-                cout<<endl<<"Branch Already Exists...";
+            if (branches.exists(branch))
+            {
+                cout << endl
+                     << "Branch Already Exists...";
                 break;
             }
-            cout<<endl<<"Adding Branch : "<<branch;
+            cout << endl
+                 << "Adding Branch : " << branch;
             branches.addBranch(branch);
             break;
         }
@@ -205,9 +210,11 @@ void manageBranches()
         {
 
             cout << endl
-                 << "View Branches"<<endl;
-            if(branches.isEmpty()){
-                cout<<endl<<"No Branches Found...";
+                 << "View Branches" << endl;
+            if (branches.isEmpty())
+            {
+                cout << endl
+                     << "No Branches Found...";
                 break;
             }
             branches.displayBranches();
@@ -217,26 +224,36 @@ void manageBranches()
         {
 
             cout << endl
-                 << "Add Connection"<<endl<<endl;
+                 << "Add Connection" << endl
+                 << endl;
             branches.displayBranches();
-            int idx1 , idx2;
-            cout<<endl<<"Choose first branch (S. No) : ";
+            int idx1, idx2;
+            cout << endl
+                 << "Choose first branch (S. No) : ";
             cin >> idx1;
-            cout<<"Choose second Branch (S. No.) : ";
+            cout << "Choose second Branch (S. No.) : ";
             cin >> idx2;
             string branch1 = branches.findBranch(idx1);
             string branch2 = branches.findBranch(idx2);
-            if (branch1 != "" && branch2 != ""){
+            if (branch1 != "" && branch2 != "")
+            {
                 int weight = 0;
-                cout<<endl<<"Enter Cost Between "<<branch1<<" and "<<branch2<<" : ";
+                cout << endl
+                     << "Enter Cost Between " << branch1 << " and " << branch2 << " : ";
                 cin >> weight;
-                if(weight < 0){
-                    cout<<endl<<"Negative values not allowed..."<<endl<<"Weight set to '0'";
+                if (weight < 0)
+                {
+                    cout << endl
+                         << "Negative values not allowed..." << endl
+                         << "Weight set to '0'";
                     weight = 0;
                 }
-                branches.addConnection(branch1 , branch2 , weight);
-            }else{
-                cout<<endl<<"Invalid Choice..."<<endl;
+                branches.addConnection(branch1, branch2, weight);
+            }
+            else
+            {
+                cout << endl
+                     << "Invalid Choice..." << endl;
             }
             break;
         }
@@ -244,7 +261,8 @@ void manageBranches()
         {
 
             cout << endl
-                 << "Calculate shortest Distance Between two branches" << endl<<endl;
+                 << "Calculate shortest Distance Between two branches" << endl
+                 << endl;
             branches.displayBranches();
             string start, end;
             int startIdx, endIdx;
@@ -330,16 +348,21 @@ void addAccounts(AccountBST &accounts, vector<User> &users)
     }
     string branchName;
     int branchIdx;
-    cout<<endl<<"Choose the Branch : "<<endl;
+    cout << endl
+         << "Choose the Branch : " << endl;
     branches.displayBranches();
-    do{
-    cout<<endl<<"Enter Branch Index : ";
-    cin >> branchIdx;
-    branchName = branches.findBranch(branchIdx);
-    if(branchName == ""){
-        cout<<endl<<"Invalid Branch Choice...";
-    }
-    }while(branchName == "");
+    do
+    {
+        cout << endl
+             << "Enter Branch Index : ";
+        cin >> branchIdx;
+        branchName = branches.findBranch(branchIdx);
+        if (branchName == "")
+        {
+            cout << endl
+                 << "Invalid Branch Choice...";
+        }
+    } while (branchName == "");
     accNumber = generateAccountNumber();
     cout << endl
          << "Enter Account Holder Name: ";
@@ -355,10 +378,9 @@ void addAccounts(AccountBST &accounts, vector<User> &users)
              << endl
              << "Amount set to 0"
              << endl;
-        return;
     }
     amount = amount < 0 ? 0 : amount;
-    
+
     acc.setID(user.id);
     acc.setBranchName(branchName);
     acc.setAccountNumber(accNumber);
@@ -428,7 +450,7 @@ void updateAccount(AccountBST &accounts, vector<User> &users)
         return;
     }
     userAcc.setAmount(amount);
-    string transaction = "(ADMIN Msg) Updated Account Details..  New Name : "+name+"  New Amount : " + to_string(amount) + " $   Date: " + __DATE__;
+    string transaction = "(ADMIN Msg) Updated Account Details..  New Name : " + name + "  New Amount : " + to_string(amount) + " $   Date: " + __DATE__;
     userAcc.setTransaction(transaction);
     cout << endl
          << "Account Updated Successfully";
@@ -456,19 +478,25 @@ void manageAccounts(AccountBST &accounts, vector<User> &users)
         {
         case '1':
             cout << endl
-                 << "Add Account";
+                 << "Add Account" << endl
+                 << "==============" << endl
+                 << endl;
             addAccounts(accounts, users);
             break;
 
         case '2':
             cout << endl
-                 << "Delete Account";
+                 << "Delete Account" << endl
+                 << "==============" << endl
+                 << endl;
             deleteAccount(accounts, users);
             break;
 
         case '3':
             cout << endl
-                 << "Update Account";
+                 << "Update Account" << endl
+                 << "==============" << endl
+                 << endl;
             updateAccount(accounts, users);
             break;
 
@@ -501,8 +529,14 @@ void processTransactions(AccountBST &accounts)
     }
     Account &sender = accounts.searchAccount(tr.getSender());
     Account &reciever = accounts.searchAccount(tr.getReciever());
+    if (sender.getID() == 0 || reciever.getID() == 0)
+    {
+        cout << endl
+             << "Account Not Found...";
+        return;
+    }
     cout << endl
-         << "AMOUNT : " << tr.getAmount() << "$  FROM  " << sender.getName() << " (ID : " << tr.getSender() << " )  TO  " << reciever.getName() << " (ID : " << tr.getReciever() << " )";
+         << "AMOUNT : " << tr.getAmount() << "$  FROM  " << sender.getName() << " (ID : " << tr.getSender() << " )  TO  " << reciever.getName() << " (ID : " << tr.getReciever() << " )  TAX : " << tr.getTax() << "$";
     cout << endl
          << "1. Accept Transaction"
          << endl
@@ -517,11 +551,11 @@ void processTransactions(AccountBST &accounts)
     case '1':
     {
         string transaction;
-        if (sender.getAmount() > tr.getAmount())
+        if (sender.getAmount() > tr.getAmount()+tr.getTax())
         {
-            sender.withdrawAmount(tr.getAmount());
+            sender.withdrawAmount(tr.getAmount() + tr.getTax());
             reciever.addAmount(tr.getAmount());
-            transaction = "Transfer Accepted : " + to_string(tr.getAmount()) + "$ to Account Holder : " + reciever.getName() + " (ID : " + to_string(reciever.getID()) + " ) Date: " + __DATE__;
+            transaction = "Transfer Accepted : " + to_string(tr.getAmount()) + "$ to Account Holder : " + reciever.getName() + " (ID : " + to_string(reciever.getID()) + " ) Tax : "+to_string(tr.getTax())+"$  Date: " + __DATE__;
             sender.setTransaction(transaction);
             cout << endl
                  << transaction;
@@ -687,7 +721,11 @@ void performTransaction(Account &userAccount, AccountBST &accounts)
             {
                 // userAccount.withdrawAmount(amountT);
                 // receiverAccount.addAmount(amountT);
-                string transaction = "Transfer Requested : " + to_string(amountT) + "$ to Account Holder: " + receiverAccount.getName() + " (ID: " + to_string(receiverAccount.getID()) + ")  Date: " + __DATE__;
+                float tax = branches.shortestPath(userAccount.getBranchName(), receiverAccount.getBranchName());
+                tax = tax * 0.2;
+                cout << endl
+                     << "Tax for transfer from " << userAccount.getBranchName() << " to " << receiverAccount.getBranchName() << " is : " << tax << "$";
+                string transaction = "Transfer Requested : " + to_string(amountT) + "$ to Account Holder: " + receiverAccount.getName() + " (ID: " + to_string(receiverAccount.getID()) + ") + Tax : " + to_string(tax) + "$  Date: " + __DATE__;
                 userAccount.setTransaction(transaction);
                 cout << endl
                      << transaction;
@@ -698,6 +736,7 @@ void performTransaction(Account &userAccount, AccountBST &accounts)
                 transactionRequest tr;
                 tr.setSenderID(userAccount.getID());
                 tr.setReceieverID(id);
+                tr.setTax(tax);
                 tr.setAmount(amountT);
                 transactions.enQueue(tr);
             }

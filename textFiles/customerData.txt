@@ -2,40 +2,54 @@
 Jack Daniels
 Branch 01
 AC123459
-4600
-0
+4610
+1
+Received 10.000000$ from Account Holder: John Doe (ID: 1)  Date: Dec 17 2024
 
 2
-Jane Smith
+Iqra Saleem
 Branch 02
 AC123457
-900
-0
+52774
+6
+Transfer Accepted : 500.000000$ to Account Holder : Kainat Khurram (ID : 6 ) Tax : 5.000000$  Date: Dec 17 2024
+Transfer Requested : 500.000000$ to Account Holder: Kainat Khurram (ID: 6) + Tax : 5$  Date: Dec 17 2024
+Received 50000.000000$ from Account Holder: Kainat Khurram (ID: 6)  Date: Dec 17 2024
+(ADMIN Msg) Updated Account Details..  New Name : Iqra Saleem  New Amount : 3278.979980 $   Date: Dec 17 2024
+Received 10.000000$ from Account Holder: Kainat Khurram (ID: 6)  Date: Dec 17 2024
+Received 10.000000$ from Account Holder: John Doe (ID: 1)  Date: Dec 17 2024
 
 1
 John Doe
-Branch 03
-AC123456
-3925
-3
-Transfer Requested : 10$ to Account Holder: Jill Valentine (ID: 5)  Date: Dec 14 2024
-Transfer Requested : 10$ to Account Holder: Jack Daniels (ID: 4)  Date: Dec 14 2024
-Transfer Requested : 10$ to Account Holder: Jane Smith (ID: 2)  Date: Dec 14 2024
+Branch 02
+AC407093
+4309
+0
 
 3
 Abdul Rafeh
 Branch 04
 AC829397
-5050
-1
+4997
+3
+Transfer Accepted : 50.000000$ to Account Holder : Kainat Khurram (ID : 6 ) Date: Dec 17 2024
+Transfer Requested : 50.000000$ to Account Holder: Kainat Khurram (ID: 6) + Tax : 3$  Date: Dec 17 2024
 (ADMIN Msg) Updated Account Details..  New Amount : 5050 $   Date: Dec 16 2024
 
 6
 Kainat Khurram
 Branch 01
 AC123461
-82705
-2
+33232
+10
+Received 500.000000$ from Account Holder: Iqra Saleem (ID: 2)  Date: Dec 17 2024
+Received 50.000000$ from Account Holder: Abdul Rafeh (ID: 3)  Date: Dec 17 2024
+Transfer Accepted : 50000.000000$ to Account Holder : Iqra Saleem (ID : 2 ) Date: Dec 17 2024
+Transfer Requested : 50000.000000$ to Account Holder: Iqra Saleem (ID: 2)  Date: Dec 17 2024
+Withdrawn -250.000000$  Date: Dec 17 2024
+Deposited -250.000000$  Date: Dec 17 2024
+Transfer Accepted : 10.000000$ to Account Holder : Jane Smith (ID : 2 ) Date: Dec 17 2024
+Transfer Accepted : 10.000000$ to Account Holder : John Doe (ID : 1 ) Date: Dec 17 2024
 Transfer Requested : 10$ to Account Holder: Jane Smith (ID: 2)  Date: Dec 14 2024
 Transfer Requested : 10$ to Account Holder: John Doe (ID: 1)  Date: Dec 14 2024
 
