@@ -1,9 +1,11 @@
 #include <iostream>
+#include <iomanip>
 #include <conio.h>
 #include <Windows.h>
 #include <fstream>
 #include <vector>
 #include <string>
+#include <sstream>
 #include "classes.h"
 #define ADMINS 3
 
@@ -13,6 +15,14 @@ transactionQueue transactions;
 BankGraph branches;
 
 // Utility Functions
+string floatToString(float n)
+{
+    ostringstream String;
+    String << fixed<<setprecision(2)<<n;
+
+    string s = String.str();
+    return s;
+}
 string generateAccountNumber()
 {
     int accountNumber = 0;
@@ -468,7 +478,8 @@ void updateAccount(AccountBST &accounts, vector<User> &users)
 
     userAcc.setBranchName(branchName);
 
-    string transaction = "(ADMIN Msg) Updated Account Details..  New Name : " + name + "  New Amount : " + to_string(amount) + " $  New Branch : "+branchName+"   Date: " + __DATE__;
+
+    string transaction = "(ADMIN Msg) Updated Account Details..  New Name : " + name + "  New Amount : " + floatToString(amount) + " $  New Branch : "+branchName+"   Date: " + __DATE__;
     userAcc.setTransaction(transaction);
     cout << endl
          << "Account Updated Successfully";
@@ -573,16 +584,16 @@ void processTransactions(AccountBST &accounts)
         {
             sender.withdrawAmount(tr.getAmount() + tr.getTax());
             reciever.addAmount(tr.getAmount());
-            transaction = "Transfer Accepted : " + to_string(tr.getAmount()) + "$ to Account Holder : " + reciever.getName() + " (ID : " + to_string(reciever.getID()) + " ) Tax : " + to_string(tr.getTax()) + "$  Date: " + __DATE__;
+            transaction = "Transfer Accepted : " + floatToString(tr.getAmount()) + "$ to Account Holder : " + reciever.getName() + " (ID : " + to_string(reciever.getID()) + " ) Tax : " + floatToString(tr.getTax()) + "$  Date: " + __DATE__;
             sender.setTransaction(transaction);
             cout << endl
                  << transaction;
-            transaction = "Received " + to_string(tr.getAmount()) + "$ from Account Holder: " + sender.getName() + " (ID: " + to_string(sender.getID()) + ")  Date: " + __DATE__;
+            transaction = "Received " + floatToString(tr.getAmount()) + "$ from Account Holder: " + sender.getName() + " (ID: " + to_string(sender.getID()) + ")  Date: " + __DATE__;
             reciever.setTransaction(transaction);
         }
         else
         {
-            transaction = "Transfer Declined Due to Low Balance : " + to_string(tr.getAmount()) + "$ to Account Holder : " + reciever.getName() + " (ID : " + to_string(reciever.getID()) + " )  Date: " + __DATE__;
+            transaction = "Transfer Declined Due to Low Balance : " + floatToString(tr.getAmount()) + "$ to Account Holder : " + reciever.getName() + " (ID : " + to_string(reciever.getID()) + " )  Date: " + __DATE__;
             sender.setTransaction(transaction);
             cout << endl
                  << transaction;
@@ -591,7 +602,7 @@ void processTransactions(AccountBST &accounts)
     }
     case '2':
     {
-        string transaction = "Transfer Declined by Administration : " + to_string(tr.getAmount()) + "$ to Account Holder : " + reciever.getName() + " (ID : " + to_string(reciever.getID()) + " )  Date: " + __DATE__;
+        string transaction = "Transfer Declined by Administration : " + floatToString(tr.getAmount()) + "$ to Account Holder : " + reciever.getName() + " (ID : " + to_string(reciever.getID()) + " )  Date: " + __DATE__;
         sender.setTransaction(transaction);
         cout << endl
              << transaction;
@@ -668,7 +679,7 @@ void performTransaction(Account &userAccount, AccountBST &accounts)
                  << "Amount Added Successfully";
             cout << endl
                  << "New Amount : " << userAccount.getAmount();
-            string transaction = "Deposited " + to_string(amount) + "$  Date: " + __DATE__;
+            string transaction = "Deposited " + floatToString(amount) + "$  Date: " + __DATE__;
             userAccount.setTransaction(transaction);
             // userAccount.transactions.addTransaction(transaction);
             // accounts.insertAccount(userAccount);
@@ -701,7 +712,7 @@ void performTransaction(Account &userAccount, AccountBST &accounts)
                      << "Amount Withdrawn Successfully";
                 cout << endl
                      << "Remaining Amount : " << userAccount.getAmount();
-                string transaction = "Withdrawn " + to_string(amountW) + "$  Date: " + __DATE__;
+                string transaction = "Withdrawn " + floatToString(amountW) + "$  Date: " + __DATE__;
                 userAccount.setTransaction(transaction);
                 // accounts.insertAccount(userAccount);
             }
@@ -762,7 +773,7 @@ void performTransaction(Account &userAccount, AccountBST &accounts)
                 }
                 cout << endl
                      << "Tax for transfer from " << userAccount.getBranchName() << " to " << receiverAccount.getBranchName() << " is : " << tax << "$";
-                string transaction = "Transfer Requested : " + to_string(amountT) + "$ to Account Holder: " + receiverAccount.getName() + " (ID: " + to_string(receiverAccount.getID()) + ") + Tax : " + to_string(tax) + "$  Date: " + __DATE__;
+                string transaction = "Transfer Requested : " + floatToString(amountT) + "$ to Account Holder: " + receiverAccount.getName() + " (ID: " + to_string(receiverAccount.getID()) + ") + Tax : " + floatToString(tax) + "$  Date: " + __DATE__;
                 userAccount.setTransaction(transaction);
                 cout << endl
                      << transaction;

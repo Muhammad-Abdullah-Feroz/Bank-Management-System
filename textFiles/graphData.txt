@@ -1,14 +1,12 @@
-Branch 01
-Branch 03
-14
-Branch 05
-6
+Branch 02
+Branch 04
+10
 
-Branch 05
+Branch 04
+Branch 02
+10
 Branch 03
-3
-Branch 01
-6
+7
 
 Branch 03
 Branch 04
@@ -18,13 +16,15 @@ Branch 05
 Branch 01
 14
 
-Branch 04
-Branch 02
-10
+Branch 05
 Branch 03
-7
+3
+Branch 01
+6
 
-Branch 02
-Branch 04
-10
+Branch 01
+Branch 03
+14
+Branch 05
+6
 
