@@ -188,7 +188,7 @@ void manageBranches()
             cout << endl
                  << "Enter the branch Name : ";
             getline(cin, branch);
-            cout << branch;
+            // cout << branch;
             if (branch == "")
             {
                 cout << endl
@@ -201,8 +201,8 @@ void manageBranches()
                      << "Branch Already Exists...";
                 break;
             }
-            cout << endl
-                 << "Adding Branch : " << branch;
+            // cout << endl
+            //  << "Adding Branch : " << branch;
             branches.addBranch(branch);
             break;
         }
@@ -551,11 +551,11 @@ void processTransactions(AccountBST &accounts)
     case '1':
     {
         string transaction;
-        if (sender.getAmount() > tr.getAmount()+tr.getTax())
+        if (sender.getAmount() > tr.getAmount() + tr.getTax())
         {
             sender.withdrawAmount(tr.getAmount() + tr.getTax());
             reciever.addAmount(tr.getAmount());
-            transaction = "Transfer Accepted : " + to_string(tr.getAmount()) + "$ to Account Holder : " + reciever.getName() + " (ID : " + to_string(reciever.getID()) + " ) Tax : "+to_string(tr.getTax())+"$  Date: " + __DATE__;
+            transaction = "Transfer Accepted : " + to_string(tr.getAmount()) + "$ to Account Holder : " + reciever.getName() + " (ID : " + to_string(reciever.getID()) + " ) Tax : " + to_string(tr.getTax()) + "$  Date: " + __DATE__;
             sender.setTransaction(transaction);
             cout << endl
                  << transaction;
@@ -722,7 +722,14 @@ void performTransaction(Account &userAccount, AccountBST &accounts)
                 // userAccount.withdrawAmount(amountT);
                 // receiverAccount.addAmount(amountT);
                 float tax = branches.shortestPath(userAccount.getBranchName(), receiverAccount.getBranchName());
-                tax = tax * 0.2;
+                if (tax < 0)
+                {
+                    tax = 0;
+                }
+                else
+                {
+                    tax = tax * 0.2;
+                }
                 cout << endl
                      << "Tax for transfer from " << userAccount.getBranchName() << " to " << receiverAccount.getBranchName() << " is : " << tax << "$";
                 string transaction = "Transfer Requested : " + to_string(amountT) + "$ to Account Holder: " + receiverAccount.getName() + " (ID: " + to_string(receiverAccount.getID()) + ") + Tax : " + to_string(tax) + "$  Date: " + __DATE__;

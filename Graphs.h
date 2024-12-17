@@ -180,7 +180,7 @@ public:
 
     void addBranch(const string &branchName)
     {
-        cout<<endl<<"Adding Branch : "<<branchName;
+        // cout<<endl<<"Adding Branch : "<<branchName;
         if (!findBranchNode(branchName))
         {
             BranchNode *newBranch = new BranchNode(branchName);
@@ -192,8 +192,8 @@ public:
 
     void addConnection(const string &branch1, const string &branch2, int weight)
     {
-        addBranch(branch1);
-        addBranch(branch2);
+        // addBranch(branch1);
+        // addBranch(branch2);
 
         BranchNode *node1 = findBranchNode(branch1);
         BranchNode *node2 = findBranchNode(branch2);
@@ -417,7 +417,7 @@ public:
         string branchName;
         while (getline(file, branchName)) // Read branch name
         {
-            cout << branchName << endl;
+            // cout << branchName << endl;
             addBranch(branchName); // Add the branch to the graph
             string neighborName;
             int weight;
